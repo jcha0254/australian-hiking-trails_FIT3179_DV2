@@ -1,0 +1,58 @@
+id,trail,short,area,map_group,state,role,km,km_basis,hours,band,grade_label,bracket
+1,Yellow Pinch lookout,Yellow Pinch lookout,Mt Barney,SE Queensland,QLD,individual,2.0,return,1.0,Hard,Grade 4,1 to 2 h
+2,Lower Portals track,Lower Portals track,Mt Barney,SE Queensland,QLD,individual,7.4,return,3.0,Hard,Grade 4,2 to 4 h
+3,Upper Portals track,Upper Portals track,Mt Barney,SE Queensland,QLD,individual,8.0,return,3.0,Hard,Grade 4,2 to 4 h
+4,Cronan Creek Falls track,Cronan Creek Falls track,Mt Barney,SE Queensland,QLD,individual,12.0,return,4.0,Hard,Grade 4,4 to 8 h
+5,South Ridge summit route,South Ridge summit route,Mt Barney,SE Queensland,QLD,individual,,return,9.0,Very hard,Summit route (not graded),8 h or more
+6,South East Ridge summit route,South East Ridge summit route,Mt Barney,SE Queensland,QLD,individual,,return,8.0,Very hard,Summit route (not graded),8 h or more
+7,Mount Maroon summit route,Mount Maroon summit route,Mt Barney,SE Queensland,QLD,individual,,return,6.0,Very hard,Summit route (not graded),4 to 8 h
+8,Warrie Circuit,Warrie Circuit,Springbrook,SE Queensland,QLD,individual,14.0,return,5.5,Hard,Grade 4,4 to 8 h
+9,Loo-Errn Track,Loo-Errn Track,Wilsons Promontory,Wilsons Promontory,VIC,individual,1.0,one way,0.5,Easy,Grade 2.1,Under 1 h
+10,Pillar Point,Pillar Point,Wilsons Promontory,Wilsons Promontory,VIC,individual,3.6,return,1.5,Moderate,Grade 3,1 to 2 h
+11,Tidal Overlook Circuit,Tidal Overlook Circuit,Wilsons Promontory,Wilsons Promontory,VIC,individual,3.8,return,1.5,Moderate,Grade 3,1 to 2 h
+12,Squeaky Beach walk,Squeaky Beach walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,4.2,return,1.5,Moderate,Grade 3,1 to 2 h
+13,Three Bays Walk,Three Bays Walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,12.4,return,4.0,Moderate,Grade 3,4 to 8 h
+14,Little Oberon Bay,Little Oberon Bay,Wilsons Promontory,Wilsons Promontory,VIC,individual,8.2,return,3.0,Moderate,Grade 3,2 to 4 h
+15,Mount Oberon Summit Walk,Mount Oberon Summit Walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,6.8,return,2.0,Hard,Grade 4,2 to 4 h
+16,Lilly Pilly Nature Walk,Lilly Pilly Nature Walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,5.2,return,1.5,Not graded,Not graded in source,1 to 2 h
+17,Lilly Pilly Circuit,Lilly Pilly Circuit,Wilsons Promontory,Wilsons Promontory,VIC,individual,5.8,return,2.0,Moderate,Grade 3,2 to 4 h
+18,Mount Bishop Summit Track,Mount Bishop Summit Track,Wilsons Promontory,Wilsons Promontory,VIC,individual,7.4,return,2.5,Moderate,Grade 3,2 to 4 h
+19,Tongue Point from Darby Saddle,Tongue Point from Darby Saddle,Wilsons Promontory,Wilsons Promontory,VIC,individual,5.6,one way,2.5,Hard,Grade 4,2 to 4 h
+20,Tongue Point from Darby River,Tongue Point from Darby River,Wilsons Promontory,Wilsons Promontory,VIC,individual,3.8,one way,2.0,Hard,Grade 4,2 to 4 h
+21,Prom Wildlife Walk,Prom Wildlife Walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,2.3,return,0.75,Easy,Grade 2.2,Under 1 h
+22,Cotters Lake and Beach,Cotters Lake and Beach,Wilsons Promontory,Wilsons Promontory,VIC,individual,2.4,return,1.0,Easy,Grade 2.2,1 to 2 h
+23,Millers Landing Nature Walk,Millers Landing Nature Walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,4.0,return,1.5,Easy,Grade 2.2,1 to 2 h
+24,Vereker Outlook,Vereker Outlook,Wilsons Promontory,Wilsons Promontory,VIC,individual,6.0,return,2.0,Moderate,Grade 3,2 to 4 h
+25,Shallow Inlet,Shallow Inlet,Wilsons Promontory,Wilsons Promontory,VIC,individual,0.4,return,0.5,Easy,Grade 2.2,Under 1 h
+26,Sealers Cove Walk,Sealers Cove Walk,Wilsons Promontory,Wilsons Promontory,VIC,individual,10.0,one way,3.0,Hard,Grade 4,2 to 4 h
+27,Sacred Canyon Walk,Sacred Canyon Walk,Flinders Ranges,Flinders Ranges,SA,individual,0.8,as listed,0.5,Not graded,Not graded in source,Under 1 h
+28,Wilpena Solar Power Station Walk,Wilpena Solar Power Station Walk,Flinders Ranges,Flinders Ranges,SA,individual,1.2,as listed,0.5,Not graded,Not graded in source,Under 1 h
+29,Boom and Bust Hike,Boom and Bust Hike,Flinders Ranges,Flinders Ranges,SA,individual,3.0,as listed,2.0,Not graded,Not graded in source,2 to 4 h
+30,Arkaroo Rock Hike,Arkaroo Rock Hike,Flinders Ranges,Flinders Ranges,SA,individual,3.1,as listed,2.0,Not graded,Not graded in source,2 to 4 h
+31,Living with Land Walk,Living with Land Walk,Flinders Ranges,Flinders Ranges,SA,individual,3.2,as listed,1.0,Not graded,Not graded in source,1 to 2 h
+32,Mount Ohlssen Bagge Hike,Mount Ohlssen Bagge Hike,Flinders Ranges,Flinders Ranges,SA,individual,5.6,as listed,4.0,Not graded,Not graded in source,4 to 8 h
+33,Hills Homestead Walk,Hills Homestead Walk,Flinders Ranges,Flinders Ranges,SA,individual,6.6,as listed,2.0,Not graded,Not graded in source,2 to 4 h
+34,Wangara Lookout Hike,Wangara Lookout Hike,Flinders Ranges,Flinders Ranges,SA,individual,7.0,as listed,3.5,Not graded,Not graded in source,2 to 4 h
+35,Bunyeroo Gorge Hike,Bunyeroo Gorge Hike,Flinders Ranges,Flinders Ranges,SA,individual,7.5,as listed,3.5,Not graded,Not graded in source,2 to 4 h
+36,Trezona Hike,Trezona Hike,Flinders Ranges,Flinders Ranges,SA,individual,8.0,as listed,4.0,Not graded,Not graded in source,4 to 8 h
+37,Yuluna Hike,Yuluna Hike,Flinders Ranges,Flinders Ranges,SA,individual,8.0,as listed,4.0,Not graded,Not graded in source,4 to 8 h
+38,Red Hill Lookout Hike,Red Hill Lookout Hike,Flinders Ranges,Flinders Ranges,SA,individual,8.4,as listed,4.0,Not graded,Not graded in source,4 to 8 h
+39,Bunyeroo and Wilcolo Creeks Hike,Bunyeroo and Wilcolo Creeks Hike,Flinders Ranges,Flinders Ranges,SA,individual,9.2,as listed,2.5,Not graded,Not graded in source,2 to 4 h
+40,Wilkawillina Gorge Hike,Wilkawillina Gorge Hike,Flinders Ranges,Flinders Ranges,SA,individual,12.7,as listed,7.0,Not graded,Not graded in source,4 to 8 h
+41,Aroona to Youngoona Hike,Aroona to Youngoona Hike,Flinders Ranges,Flinders Ranges,SA,individual,13.4,as listed,7.0,Not graded,Not graded in source,4 to 8 h
+42,Bridle Gap Hike,Bridle Gap Hike,Flinders Ranges,Flinders Ranges,SA,individual,18.6,as listed,6.0,Not graded,Not graded in source,4 to 8 h
+43,St Mary Peak Hike,St Mary Peak Hike,Flinders Ranges,Flinders Ranges,SA,individual,19.0,as listed,9.0,Not graded,Not graded in source,8 h or more
+44,Malloga Falls Hike,Malloga Falls Hike,Flinders Ranges,Flinders Ranges,SA,individual,23.2,as listed,9.0,Not graded,Not graded in source,8 h or more
+45,Bluff Knoll (Bular Mial),Bluff Knoll (Bular Mial),Bluff Knoll,Stirling Range,WA,individual,6.8,return,3.5,Hard,Grade 4,2 to 4 h
+46,Section 1: Telegraph Station to Simpsons Gap,Larapinta S1,Larapinta Trail,Larapinta Trail,NT,section,24.7,one way,9.0,Hard,Hard,8 h or more
+47,Section 2: Simpsons Gap to Jay Creek,Larapinta S2,Larapinta Trail,Larapinta Trail,NT,section,26.2,one way,8.5,Hard,Hard,8 h or more
+48,Section 3: Jay Creek to Standley Chasm,Larapinta S3,Larapinta Trail,Larapinta Trail,NT,section,13.6,one way,5.5,Hard,Hard,4 to 8 h
+49,Section 4: Standley Chasm to 4/5 Junction,Larapinta S4,Larapinta Trail,Larapinta Trail,NT,section,17.9,one way,8.5,Very hard,Very hard,8 h or more
+50,Section 5: 4/5 Junction to Hugh Gorge,Larapinta S5,Larapinta Trail,Larapinta Trail,NT,section,14.9,one way,9.5,Very hard,Very hard,8 h or more
+51,Section 6: Hugh Gorge to Ellery Creek North,Larapinta S6,Larapinta Trail,Larapinta Trail,NT,section,28.9,one way,10.5,Hard,Hard,8 h or more
+52,Section 7: Ellery Creek North to Serpentine Gorge,Larapinta S7,Larapinta Trail,Larapinta Trail,NT,section,12.8,one way,5.0,Hard,Hard,4 to 8 h
+53,Section 8: Serpentine Gorge to Serpentine Chalet Dam,Larapinta S8,Larapinta Trail,Larapinta Trail,NT,section,13.0,one way,5.5,Hard,Hard,4 to 8 h
+54,Section 9: Serpentine Chalet Dam to Ormiston Gorge,Larapinta S9,Larapinta Trail,Larapinta Trail,NT,section,28.9,one way,12.0,Very hard,Very hard,8 h or more
+55,Section 10: Ormiston Gorge to Finke River,Larapinta S10,Larapinta Trail,Larapinta Trail,NT,section,8.9,one way,4.0,Moderate,Moderate,4 to 8 h
+56,Section 11: Finke River to Redbank Gorge,Larapinta S11,Larapinta Trail,Larapinta Trail,NT,section,26.3,one way,9.5,Hard,Hard,8 h or more
+57,Section 12: Redbank Gorge to Mount Sonder (return),Larapinta S12,Larapinta Trail,Larapinta Trail,NT,section,15.0,return,6.0,Hard,Hard,4 to 8 h

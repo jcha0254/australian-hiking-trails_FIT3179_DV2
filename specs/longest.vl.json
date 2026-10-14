@@ -1,0 +1,131 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 330,
+  "data": {
+    "url": "data/trails_clean.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "km": "number",
+        "hours": "number"
+      }
+    }
+  },
+  "transform": [
+    {
+      "filter": "isValid(datum.km)"
+    },
+    {
+      "window": [
+        {
+          "op": "row_number",
+          "as": "rk"
+        }
+      ],
+      "sort": [
+        {
+          "field": "km",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rk <= 10"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "short",
+      "type": "nominal",
+      "sort": {
+        "field": "km",
+        "op": "max",
+        "order": "descending"
+      },
+      "title": null,
+      "axis": {
+        "labelLimit": 210
+      }
+    },
+    "x": {
+      "field": "km",
+      "type": "quantitative",
+      "title": "Distance (km)",
+      "scale": {
+        "domain": [
+          0,
+          32
+        ]
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "cornerRadiusEnd": 2,
+        "height": {
+          "band": 0.72
+        }
+      },
+      "encoding": {
+        "color": {
+          "field": "map_group",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "SE Queensland",
+              "Wilsons Promontory",
+              "Flinders Ranges",
+              "Stirling Range",
+              "Larapinta Trail"
+            ],
+            "range": [
+              "#2F6E8E",
+              "#D98E04",
+              "#B5472E",
+              "#5F8A3C",
+              "#8C3B72"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "trail",
+            "title": "Trail"
+          },
+          {
+            "field": "map_group",
+            "title": "Area"
+          },
+          {
+            "field": "km",
+            "title": "Distance (km)"
+          },
+          {
+            "field": "hours",
+            "title": "Time (hours)"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "fontSize": 11,
+        "fontWeight": 600
+      },
+      "encoding": {
+        "text": {
+          "field": "km",
+          "type": "quantitative",
+          "format": ".1f"
+        }
+      }
+    }
+  ]
+}

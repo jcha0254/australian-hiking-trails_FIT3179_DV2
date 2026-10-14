@@ -1,0 +1,58 @@
+map_group,band,col,row,trail
+SE Queensland,Hard,0,0,Yellow Pinch lookout
+SE Queensland,Hard,1,0,Lower Portals track
+SE Queensland,Hard,2,0,Upper Portals track
+SE Queensland,Hard,3,0,Cronan Creek Falls track
+SE Queensland,Hard,4,0,Warrie Circuit
+SE Queensland,Very hard,5,0,South Ridge summit route
+SE Queensland,Very hard,0,1,South East Ridge summit route
+SE Queensland,Very hard,1,1,Mount Maroon summit route
+Wilsons Promontory,Easy,0,0,Loo-Errn Track
+Wilsons Promontory,Easy,1,0,Prom Wildlife Walk
+Wilsons Promontory,Easy,2,0,Cotters Lake and Beach
+Wilsons Promontory,Easy,3,0,Millers Landing Nature Walk
+Wilsons Promontory,Easy,4,0,Shallow Inlet
+Wilsons Promontory,Moderate,5,0,Pillar Point
+Wilsons Promontory,Moderate,0,1,Tidal Overlook Circuit
+Wilsons Promontory,Moderate,1,1,Squeaky Beach walk
+Wilsons Promontory,Moderate,2,1,Three Bays Walk
+Wilsons Promontory,Moderate,3,1,Little Oberon Bay
+Wilsons Promontory,Moderate,4,1,Lilly Pilly Circuit
+Wilsons Promontory,Moderate,5,1,Mount Bishop Summit Track
+Wilsons Promontory,Moderate,0,2,Vereker Outlook
+Wilsons Promontory,Hard,1,2,Mount Oberon Summit Walk
+Wilsons Promontory,Hard,2,2,Tongue Point from Darby Saddle
+Wilsons Promontory,Hard,3,2,Tongue Point from Darby River
+Wilsons Promontory,Hard,4,2,Sealers Cove Walk
+Wilsons Promontory,Not graded,5,2,Lilly Pilly Nature Walk
+Flinders Ranges,Not graded,0,0,Sacred Canyon Walk
+Flinders Ranges,Not graded,1,0,Wilpena Solar Power Station Walk
+Flinders Ranges,Not graded,2,0,Boom and Bust Hike
+Flinders Ranges,Not graded,3,0,Arkaroo Rock Hike
+Flinders Ranges,Not graded,4,0,Living with Land Walk
+Flinders Ranges,Not graded,5,0,Mount Ohlssen Bagge Hike
+Flinders Ranges,Not graded,0,1,Hills Homestead Walk
+Flinders Ranges,Not graded,1,1,Wangara Lookout Hike
+Flinders Ranges,Not graded,2,1,Bunyeroo Gorge Hike
+Flinders Ranges,Not graded,3,1,Trezona Hike
+Flinders Ranges,Not graded,4,1,Yuluna Hike
+Flinders Ranges,Not graded,5,1,Red Hill Lookout Hike
+Flinders Ranges,Not graded,0,2,Bunyeroo and Wilcolo Creeks Hike
+Flinders Ranges,Not graded,1,2,Wilkawillina Gorge Hike
+Flinders Ranges,Not graded,2,2,Aroona to Youngoona Hike
+Flinders Ranges,Not graded,3,2,Bridle Gap Hike
+Flinders Ranges,Not graded,4,2,St Mary Peak Hike
+Flinders Ranges,Not graded,5,2,Malloga Falls Hike
+Stirling Range,Hard,0,0,Bluff Knoll (Bular Mial)
+Larapinta Trail,Moderate,0,0,Section 10: Ormiston Gorge to Finke River
+Larapinta Trail,Hard,1,0,Section 1: Telegraph Station to Simpsons Gap
+Larapinta Trail,Hard,2,0,Section 2: Simpsons Gap to Jay Creek
+Larapinta Trail,Hard,3,0,Section 3: Jay Creek to Standley Chasm
+Larapinta Trail,Hard,4,0,Section 6: Hugh Gorge to Ellery Creek North
+Larapinta Trail,Hard,5,0,Section 7: Ellery Creek North to Serpentine Gorge
+Larapinta Trail,Hard,0,1,Section 8: Serpentine Gorge to Serpentine Chalet Dam
+Larapinta Trail,Hard,1,1,Section 11: Finke River to Redbank Gorge
+Larapinta Trail,Hard,2,1,Section 12: Redbank Gorge to Mount Sonder (return)
+Larapinta Trail,Very hard,3,1,Section 4: Standley Chasm to 4/5 Junction
+Larapinta Trail,Very hard,4,1,Section 5: 4/5 Junction to Hugh Gorge
+Larapinta Trail,Very hard,5,1,Section 9: Serpentine Chalet Dam to Ormiston Gorge

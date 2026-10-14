@@ -1,0 +1,271 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "padding": 0,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "signals": [
+    {
+      "name": "width",
+      "init": "containerSize()[0]",
+      "on": [
+        {
+          "events": "window:resize",
+          "update": "containerSize()[0]"
+        }
+      ]
+    },
+    {
+      "name": "height",
+      "value": 470
+    }
+  ],
+  "data": [
+    {
+      "name": "tree",
+      "url": "data/treemap_nodes.csv",
+      "format": {
+        "type": "csv",
+        "parse": {
+          "km": "number",
+          "total_km": "number"
+        }
+      },
+      "transform": [
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "treemap",
+          "field": "km",
+          "sort": {
+            "field": "value",
+            "order": "descending"
+          },
+          "round": true,
+          "method": "squarify",
+          "ratio": 1.2,
+          "paddingInner": 1.5,
+          "paddingOuter": 2,
+          "paddingTop": 19,
+          "size": [
+            {
+              "signal": "width"
+            },
+            {
+              "signal": "height"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "leaves",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "!datum.children"
+        }
+      ]
+    },
+    {
+      "name": "groups",
+      "source": "tree",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.depth == 1"
+        }
+      ]
+    }
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": [
+        "g:SE Queensland",
+        "g:Wilsons Promontory",
+        "g:Flinders Ranges",
+        "g:Stirling Range",
+        "g:Larapinta Trail"
+      ],
+      "range": [
+        "#2F6E8E",
+        "#D98E04",
+        "#B5472E",
+        "#5F8A3C",
+        "#8C3B72"
+      ]
+    }
+  ],
+  "marks": [
+    {
+      "type": "rect",
+      "from": {
+        "data": "groups"
+      },
+      "encode": {
+        "enter": {
+          "fill": {
+            "scale": "color",
+            "field": "id"
+          },
+          "fillOpacity": {
+            "value": 0.18
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          }
+        }
+      }
+    },
+    {
+      "type": "rect",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "enter": {
+          "stroke": {
+            "value": "#fff"
+          },
+          "strokeWidth": {
+            "value": 1
+          },
+          "cursor": {
+            "value": "pointer"
+          }
+        },
+        "update": {
+          "x": {
+            "field": "x0"
+          },
+          "y": {
+            "field": "y0"
+          },
+          "x2": {
+            "field": "x1"
+          },
+          "y2": {
+            "field": "y1"
+          },
+          "fill": {
+            "scale": "color",
+            "field": "parent"
+          },
+          "fillOpacity": {
+            "value": 0.92
+          },
+          "tooltip": {
+            "signal": "{'Trail': datum.full, 'Distance': datum.km + ' km', 'Grade band': datum.band}"
+          }
+        },
+        "hover": {
+          "fillOpacity": {
+            "value": 1
+          },
+          "stroke": {
+            "value": "#14231F"
+          },
+          "strokeWidth": {
+            "value": 2
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "groups"
+      },
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Overpass"
+          },
+          "fontWeight": {
+            "value": "bold"
+          },
+          "fontSize": {
+            "value": 12
+          },
+          "fill": {
+            "value": "#14231F"
+          },
+          "baseline": {
+            "value": "top"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 5"
+          },
+          "y": {
+            "signal": "datum.y0 + 3"
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 8"
+          },
+          "text": {
+            "signal": "datum.name + '  ·  ' + format(datum.total_km, '.0f') + ' km'"
+          }
+        }
+      }
+    },
+    {
+      "type": "text",
+      "from": {
+        "data": "leaves"
+      },
+      "encode": {
+        "enter": {
+          "font": {
+            "value": "Overpass"
+          },
+          "fontSize": {
+            "value": 11
+          },
+          "fill": {
+            "value": "#ffffff"
+          },
+          "baseline": {
+            "value": "top"
+          },
+          "fontWeight": {
+            "value": "600"
+          }
+        },
+        "update": {
+          "x": {
+            "signal": "datum.x0 + 5"
+          },
+          "y": {
+            "signal": "datum.y0 + 4"
+          },
+          "limit": {
+            "signal": "datum.x1 - datum.x0 - 8"
+          },
+          "text": {
+            "signal": "(datum.x1 - datum.x0) > 46 && (datum.y1 - datum.y0) > 28 ? datum.name : ''"
+          }
+        }
+      }
+    }
+  ]
+}

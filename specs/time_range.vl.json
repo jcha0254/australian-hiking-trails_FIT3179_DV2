@@ -1,0 +1,287 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 300,
+  "encoding": {
+    "y": {
+      "field": "map_group",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "Larapinta Trail",
+        "SE Queensland",
+        "Flinders Ranges",
+        "Stirling Range",
+        "Wilsons Promontory"
+      ],
+      "axis": {
+        "labelLimit": 150,
+        "labelFontWeight": 600
+      }
+    }
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/trails_clean.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "km": "number",
+            "hours": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "min",
+              "field": "hours",
+              "as": "lo"
+            },
+            {
+              "op": "max",
+              "field": "hours",
+              "as": "hi"
+            }
+          ],
+          "groupby": [
+            "map_group"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "rule",
+        "strokeWidth": 7,
+        "strokeCap": "round",
+        "opacity": 0.28
+      },
+      "encoding": {
+        "x": {
+          "field": "lo",
+          "type": "quantitative",
+          "title": "Time the trail takes (hours, as published)",
+          "axis": {
+            "values": [
+              0,
+              2,
+              4,
+              6,
+              8,
+              10,
+              12
+            ]
+          },
+          "scale": {
+            "domain": [
+              0,
+              19
+            ],
+            "nice": false
+          }
+        },
+        "x2": {
+          "field": "hi"
+        },
+        "color": {
+          "field": "map_group",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "SE Queensland",
+              "Wilsons Promontory",
+              "Flinders Ranges",
+              "Stirling Range",
+              "Larapinta Trail"
+            ],
+            "range": [
+              "#2F6E8E",
+              "#D98E04",
+              "#B5472E",
+              "#5F8A3C",
+              "#8C3B72"
+            ]
+          },
+          "legend": null
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/trails_clean.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "km": "number",
+            "hours": "number"
+          }
+        }
+      },
+      "mark": {
+        "type": "circle",
+        "size": 70,
+        "opacity": 0.65,
+        "stroke": "#fff",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "hours",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              19
+            ],
+            "nice": false
+          }
+        },
+        "color": {
+          "field": "map_group",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "SE Queensland",
+              "Wilsons Promontory",
+              "Flinders Ranges",
+              "Stirling Range",
+              "Larapinta Trail"
+            ],
+            "range": [
+              "#2F6E8E",
+              "#D98E04",
+              "#B5472E",
+              "#5F8A3C",
+              "#8C3B72"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "trail",
+            "title": "Trail"
+          },
+          {
+            "field": "hours",
+            "title": "Time (hours)"
+          },
+          {
+            "field": "km",
+            "title": "Distance (km)"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/trails_clean.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "km": "number",
+            "hours": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "hours",
+              "as": "avg"
+            },
+            {
+              "op": "max",
+              "field": "hours",
+              "as": "hi"
+            },
+            {
+              "op": "count",
+              "as": "n"
+            }
+          ],
+          "groupby": [
+            "map_group"
+          ]
+        },
+        {
+          "calculate": "'avg ' + format(datum.avg, '.1f') + ' h, ' + datum.n + (datum.n == 1 ? ' trail' : ' trails')",
+          "as": "lab"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 10,
+        "fontSize": 11.5,
+        "fontWeight": 700,
+        "color": "#14231F"
+      },
+      "encoding": {
+        "x": {
+          "field": "hi",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              19
+            ],
+            "nice": false
+          }
+        },
+        "text": {
+          "field": "lab",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/trails_clean.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "km": "number",
+            "hours": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "hours",
+              "as": "avg"
+            }
+          ],
+          "groupby": [
+            "map_group"
+          ]
+        }
+      ],
+      "mark": {
+        "type": "tick",
+        "color": "#14231F",
+        "thickness": 3,
+        "size": 22
+      },
+      "encoding": {
+        "x": {
+          "field": "avg",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              19
+            ],
+            "nice": false
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+id,publisher,title,url,used_for
+S1,Queensland Parks and Wildlife Service,Mount Barney National Park: things to do,https://parks.qld.gov.au/parks/mount-barney/things-to-do,Mt Barney tracks (distance time grade); summit route times
+S2,Queensland Parks and Wildlife Service,Mount Barney summit routes (PDF),https://parks.qld.gov.au/__data/assets/pdf_file/0025/165265/mt-barney-summit-routes-info.pdf,East Peak height; route marker coordinates
+S3,Parks Victoria,Wilsons Promontory National Park Visitor Guide (PDF),https://www.parks.vic.gov.au/-/media/project/pv/main/parks/documents/visitor-guides-and-publications/wilsons-promontory-national-park/wilsons-promontory-national-park-visitor-guide.pdf?rev=68fd611f1c0e42599c21dd200584df87,Wilsons Prom walks (distance time grade)
+S4,Parks Victoria,Sealers Cove Walk,https://www.parks.vic.gov.au/places-to-see/sites/sealers-cove-walk,Sealers Cove walk
+S5,NT Parks and Wildlife,Sections of the Larapinta Trail,https://nt.gov.au/parks/find-a-park/tjoritja-west-macdonnell-national-park/larapinta-trail/sections-of-the-larapinta-trail,Larapinta section distances
+S6,Larapinta Trail website,Larapinta Trail Snapshot,https://www.larapintatrail.com.au/larapinta-trail-snapshot.html,Larapinta section hours and grades; Mt Sonder height
+S7,Walking SA,Ikara-Flinders Ranges National Park walks,https://www.walkingsa.org.au/walk/find-a-place-to-walk/park/flinders-ranges-national-park/,Flinders Ranges walks (distance time)
+S8,SA Government,Ikara-Flinders Ranges itinerary,https://environment.sa.gov.au/goodliving/posts/2019/07/ikara-flinders-ranges-itinerary,St Mary Peak height
+S9,Trails WA,Bluff Knoll Stirling Range NP,https://trailswa.com.au/trails/bluff-knoll,Bluff Knoll (distance time grade height)
+S10,Queensland Parks and Wildlife Service,Springbrook walking tracks summary,https://parks.qld.gov.au/parks/springbrook/journeys/walking-tracks-summary,Warrie Circuit (distance time grade)

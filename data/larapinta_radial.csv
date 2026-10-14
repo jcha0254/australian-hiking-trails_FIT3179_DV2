@@ -1,0 +1,13 @@
+i,i2,section,trail,km,hours,band
+0,1,S1,Section 1: Telegraph Station to Simpsons Gap,24.7,9.0,Hard
+1,2,S2,Section 2: Simpsons Gap to Jay Creek,26.2,8.5,Hard
+2,3,S3,Section 3: Jay Creek to Standley Chasm,13.6,5.5,Hard
+3,4,S4,Section 4: Standley Chasm to 4/5 Junction,17.9,8.5,Very hard
+4,5,S5,Section 5: 4/5 Junction to Hugh Gorge,14.9,9.5,Very hard
+5,6,S6,Section 6: Hugh Gorge to Ellery Creek North,28.9,10.5,Hard
+6,7,S7,Section 7: Ellery Creek North to Serpentine Gorge,12.8,5.0,Hard
+7,8,S8,Section 8: Serpentine Gorge to Serpentine Chalet Dam,13.0,5.5,Hard
+8,9,S9,Section 9: Serpentine Chalet Dam to Ormiston Gorge,28.9,12.0,Very hard
+9,10,S10,Section 10: Ormiston Gorge to Finke River,8.9,4.0,Moderate
+10,11,S11,Section 11: Finke River to Redbank Gorge,26.3,9.5,Hard
+11,12,S12,Section 12: Redbank Gorge to Mount Sonder (return),15.0,6.0,Hard

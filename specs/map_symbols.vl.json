@@ -1,0 +1,190 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 430,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+      -18,
+      -36
+    ],
+    "rotate": [
+      -132,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/australia_states.geojson",
+        "format": {
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#E3E8E2",
+        "stroke": "#fff",
+        "strokeWidth": 1
+      }
+    },
+    {
+      "data": {
+        "url": "data/groups.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "n_trails": "number",
+            "total_km": "number",
+            "total_hours": "number",
+            "km_from_melbourne": "number",
+            "longest_km": "number",
+            "dx": "number",
+            "dy": "number",
+            "fx": "number",
+            "fy": "number"
+          }
+        }
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.88,
+        "stroke": "#fff",
+        "strokeWidth": 1.5
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "total_km",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "domain": [
+              0,
+              240
+            ],
+            "range": [
+              60,
+              3600
+            ]
+          },
+          "legend": {
+            "title": "Distance (km)",
+            "titleLimit": 200,
+            "orient": "top-left",
+            "values": [
+              10,
+              50,
+              100,
+              200
+            ],
+            "symbolFillColor": "#9aa6a0"
+          }
+        },
+        "color": {
+          "field": "map_group",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "SE Queensland",
+              "Wilsons Promontory",
+              "Flinders Ranges",
+              "Stirling Range",
+              "Larapinta Trail"
+            ],
+            "range": [
+              "#2F6E8E",
+              "#D98E04",
+              "#B5472E",
+              "#5F8A3C",
+              "#8C3B72"
+            ]
+          },
+          "legend": null
+        },
+        "tooltip": [
+          {
+            "field": "map_group",
+            "title": "Area"
+          },
+          {
+            "field": "n_trails",
+            "title": "Trails listed"
+          },
+          {
+            "field": "total_km",
+            "title": "Combined distance (km)"
+          },
+          {
+            "field": "total_hours",
+            "title": "Combined time (hours)"
+          },
+          {
+            "field": "longest_trail",
+            "title": "Longest trail"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/groups.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "n_trails": "number",
+            "total_km": "number",
+            "total_hours": "number",
+            "km_from_melbourne": "number",
+            "longest_km": "number",
+            "dx": "number",
+            "dy": "number",
+            "fx": "number",
+            "fy": "number"
+          }
+        }
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "color": "#14231F",
+        "dx": {
+          "expr": "datum.dx"
+        },
+        "dy": {
+          "expr": "datum.dy"
+        },
+        "align": {
+          "expr": "datum.align"
+        }
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "map_group",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

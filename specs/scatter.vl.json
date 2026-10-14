@@ -1,0 +1,357 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 400,
+  "layer": [
+    {
+      "data": {
+        "values": [
+          {
+            "v": 4,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "v": 2,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "v": 1,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "v": 4,
+            "x": 30,
+            "y": 7.5
+          },
+          {
+            "v": 2,
+            "x": 26,
+            "y": 13
+          },
+          {
+            "v": 1,
+            "x": 13,
+            "y": 13
+          }
+        ]
+      },
+      "mark": {
+        "type": "line",
+        "stroke": "#9aa6a0",
+        "strokeDash": [
+          4,
+          4
+        ],
+        "strokeWidth": 1.2,
+        "clip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "x",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              30
+            ],
+            "nice": false
+          }
+        },
+        "y": {
+          "field": "y",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              13
+            ],
+            "nice": false
+          }
+        },
+        "detail": {
+          "field": "v",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "v": 4,
+            "x2": 30,
+            "y2": 7.5,
+            "lx": 29.2,
+            "ly": 7.9,
+            "lab": "4 km per hour"
+          },
+          {
+            "v": 2,
+            "x2": 26,
+            "y2": 13,
+            "lx": 24.2,
+            "ly": 13.0,
+            "lab": "2 km per hour"
+          },
+          {
+            "v": 1,
+            "x2": 13,
+            "y2": 13,
+            "lx": 11.4,
+            "ly": 13.0,
+            "lab": "1 km per hour"
+          }
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 10.5,
+        "color": "#6b7873",
+        "align": "right",
+        "baseline": "bottom",
+        "dy": -2
+      },
+      "encoding": {
+        "x": {
+          "field": "lx",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              30
+            ],
+            "nice": false
+          }
+        },
+        "y": {
+          "field": "ly",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              13
+            ],
+            "nice": false
+          }
+        },
+        "text": {
+          "field": "lab",
+          "type": "nominal"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/trails_clean.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "km": "number",
+            "hours": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "isValid(datum.km) && datum.km > 0"
+        },
+        {
+          "calculate": "datum.km_basis == 'one way' ? 'One way' : 'Return, loop or as listed'",
+          "as": "kind"
+        },
+        {
+          "calculate": "datum.trail == 'Section 9: Serpentine Chalet Dam to Ormiston Gorge' ? 'Larapinta S9' : datum.trail == 'St Mary Peak Hike' ? 'St Mary Peak' : datum.trail == 'Warrie Circuit' ? 'Warrie Circuit' : null",
+          "as": "tag"
+        }
+      ],
+      "params": [
+        {
+          "name": "grp",
+          "select": {
+            "type": "point",
+            "fields": [
+              "map_group"
+            ]
+          },
+          "bind": "legend"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 85,
+        "stroke": "#fff",
+        "strokeWidth": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "km",
+          "type": "quantitative",
+          "title": "Distance (km, as published)",
+          "scale": {
+            "domain": [
+              0,
+              30
+            ],
+            "nice": false
+          }
+        },
+        "y": {
+          "field": "hours",
+          "type": "quantitative",
+          "title": "Time (hours, as published)",
+          "scale": {
+            "domain": [
+              0,
+              13
+            ],
+            "nice": false
+          }
+        },
+        "color": {
+          "field": "map_group",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "SE Queensland",
+              "Wilsons Promontory",
+              "Flinders Ranges",
+              "Stirling Range",
+              "Larapinta Trail"
+            ],
+            "range": [
+              "#2F6E8E",
+              "#D98E04",
+              "#B5472E",
+              "#5F8A3C",
+              "#8C3B72"
+            ]
+          },
+          "legend": {
+            "title": "Area (click to focus)",
+            "titleLimit": 220,
+            "orient": "top-left"
+          }
+        },
+        "shape": {
+          "field": "kind",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Return, loop or as listed",
+              "One way"
+            ],
+            "range": [
+              "circle",
+              "triangle-up"
+            ]
+          },
+          "legend": {
+            "title": "How it is measured",
+            "titleLimit": 220,
+            "labelLimit": 220,
+            "orient": "top-left"
+          }
+        },
+        "opacity": {
+          "condition": {
+            "param": "grp",
+            "value": 0.92
+          },
+          "value": 0.15
+        },
+        "tooltip": [
+          {
+            "field": "trail",
+            "title": "Trail"
+          },
+          {
+            "field": "map_group",
+            "title": "Area"
+          },
+          {
+            "field": "km",
+            "title": "Distance (km)"
+          },
+          {
+            "field": "hours",
+            "title": "Time (hours)"
+          },
+          {
+            "field": "kind",
+            "title": "Measured"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/trails_clean.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "km": "number",
+            "hours": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "isValid(datum.km) && datum.km > 0"
+        },
+        {
+          "calculate": "datum.km_basis == 'one way' ? 'One way' : 'Return, loop or as listed'",
+          "as": "kind"
+        },
+        {
+          "calculate": "datum.trail == 'Section 9: Serpentine Chalet Dam to Ormiston Gorge' ? 'Larapinta S9' : datum.trail == 'St Mary Peak Hike' ? 'St Mary Peak' : datum.trail == 'Warrie Circuit' ? 'Warrie Circuit' : null",
+          "as": "tag"
+        },
+        {
+          "filter": "isValid(datum.tag)"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": 600,
+        "color": "#14231F",
+        "dx": -9,
+        "align": "right"
+      },
+      "encoding": {
+        "x": {
+          "field": "km",
+          "type": "quantitative",
+          "title": "Distance (km, as published)",
+          "scale": {
+            "domain": [
+              0,
+              30
+            ],
+            "nice": false
+          }
+        },
+        "y": {
+          "field": "hours",
+          "type": "quantitative",
+          "title": "Time (hours, as published)",
+          "scale": {
+            "domain": [
+              0,
+              13
+            ],
+            "nice": false
+          }
+        },
+        "text": {
+          "field": "tag",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

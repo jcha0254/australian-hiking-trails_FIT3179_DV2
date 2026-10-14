@@ -1,0 +1,117 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 250,
+  "data": {
+    "url": "data/isotype.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "i": "number",
+        "total_hours": "number"
+      }
+    }
+  },
+  "encoding": {
+    "y": {
+      "field": "map_group",
+      "type": "nominal",
+      "title": null,
+      "sort": {
+        "field": "total_hours",
+        "op": "max",
+        "order": "descending"
+      },
+      "axis": {
+        "labelLimit": 150,
+        "labelFontWeight": 600
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 14,
+        "baseline": "middle"
+      },
+      "encoding": {
+        "x": {
+          "field": "i",
+          "type": "quantitative",
+          "axis": null,
+          "scale": {
+            "domain": [
+              -0.5,
+              24
+            ]
+          }
+        },
+        "text": {
+          "value": "🥾"
+        },
+        "tooltip": [
+          {
+            "field": "map_group",
+            "title": "Area"
+          },
+          {
+            "field": "total_hours",
+            "title": "Combined time (hours)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "max",
+              "field": "i",
+              "as": "mx"
+            },
+            {
+              "op": "max",
+              "field": "total_hours",
+              "as": "t"
+            }
+          ],
+          "groupby": [
+            "map_group"
+          ]
+        },
+        {
+          "calculate": "format(datum.t, '.1f') + ' h'",
+          "as": "lab"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 4,
+        "baseline": "middle",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "color": "#14231F"
+      },
+      "encoding": {
+        "x": {
+          "field": "mx",
+          "type": "quantitative",
+          "axis": null,
+          "scale": {
+            "domain": [
+              -0.5,
+              24
+            ]
+          }
+        },
+        "text": {
+          "field": "lab",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

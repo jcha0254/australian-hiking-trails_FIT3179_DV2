@@ -1,0 +1,119 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 230,
+  "data": {
+    "url": "data/heatmap.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "n": "number",
+        "bracket_order": "number"
+      }
+    }
+  },
+  "encoding": {
+    "x": {
+      "field": "bracket",
+      "type": "ordinal",
+      "sort": {
+        "field": "bracket_order"
+      },
+      "title": "Time the trail takes",
+      "axis": {
+        "labelAngle": 0,
+        "orient": "top",
+        "titleOrient": "top"
+      }
+    },
+    "y": {
+      "field": "map_group",
+      "type": "nominal",
+      "title": null,
+      "sort": [
+        "SE Queensland",
+        "Wilsons Promontory",
+        "Flinders Ranges",
+        "Stirling Range",
+        "Larapinta Trail"
+      ]
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "stroke": "#fff",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "color": {
+          "field": "n",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              10
+            ],
+            "range": [
+              "#EEF1EC",
+              "#2F6E8E",
+              "#14231F"
+            ],
+            "clamp": true
+          },
+          "legend": {
+            "title": "Number of trails",
+            "orient": "right",
+            "values": [
+              0,
+              2,
+              4,
+              6,
+              8,
+              10
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "map_group",
+            "title": "Area"
+          },
+          {
+            "field": "bracket",
+            "title": "Time"
+          },
+          {
+            "field": "n",
+            "title": "Trails"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 13,
+        "fontWeight": 700
+      },
+      "encoding": {
+        "text": {
+          "condition": {
+            "test": "datum.n == 0",
+            "value": ""
+          },
+          "field": "n",
+          "type": "quantitative"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.n >= 4",
+            "value": "#fff"
+          },
+          "value": "#14231F"
+        }
+      }
+    }
+  ]
+}

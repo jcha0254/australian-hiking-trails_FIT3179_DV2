@@ -1,0 +1,6 @@
+map_group,state,lon,lat,n_trails,total_km,total_hours,km_from_melbourne,longest_trail,longest_km,dx,dy,align,fx,fy,falign
+SE Queensland,QLD,152.98,-28.26,8,43.4,39.5,1298,Warrie Circuit,14.0,-28,-2,right,-10,-12,right
+Wilsons Promontory,VIC,146.355,-39.033,18,92.9,33.2,182,Three Bays Walk,12.4,-32,6,right,-12,18,right
+Flinders Ranges,SA,138.606,-31.526,18,158.5,71.5,909,Malloga Falls Hike,23.2,36,-2,left,-10,14,right
+Stirling Range,WA,118.256,-34.375,1,6.8,3.5,2421,Bluff Knoll (Bular Mial),6.8,16,-2,left,14,-8,left
+Larapinta Trail,NT,133.0,-23.62,12,231.1,93.5,1945,Larapinta S6,28.9,38,-2,left,12,-8,left

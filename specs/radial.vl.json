@@ -1,0 +1,148 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 430,
+  "data": {
+    "url": "data/larapinta_radial.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "i": "number",
+        "i2": "number",
+        "km": "number",
+        "hours": "number"
+      }
+    }
+  },
+  "encoding": {
+    "theta": {
+      "field": "i",
+      "type": "quantitative",
+      "scale": {
+        "domain": [
+          0,
+          12
+        ],
+        "range": [
+          0,
+          6.283185
+        ]
+      },
+      "stack": null
+    },
+    "radius": {
+      "field": "km",
+      "type": "quantitative",
+      "scale": {
+        "type": "sqrt",
+        "zero": true,
+        "rangeMin": 30,
+        "rangeMax": 185
+      },
+      "stack": null
+    }
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "arc",
+        "stroke": "#fff",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "theta2": {
+          "field": "i2"
+        },
+        "radius2": {
+          "value": 30
+        },
+        "color": {
+          "field": "band",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "Moderate",
+              "Hard",
+              "Very hard"
+            ],
+            "range": [
+              "#E2B73F",
+              "#DB6B2D",
+              "#8E2B3A"
+            ]
+          },
+          "legend": {
+            "title": "Section grade",
+            "orient": "bottom",
+            "direction": "horizontal"
+          }
+        },
+        "tooltip": [
+          {
+            "field": "trail",
+            "title": "Section"
+          },
+          {
+            "field": "km",
+            "title": "Distance (km)"
+          },
+          {
+            "field": "hours",
+            "title": "Time (hours)"
+          },
+          {
+            "field": "band",
+            "title": "Grade"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "calculate": "datum.i + 0.5",
+          "as": "mid"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "radiusOffset": 13,
+        "fontSize": 12,
+        "fontWeight": 700,
+        "color": "#14231F"
+      },
+      "encoding": {
+        "theta": {
+          "field": "mid",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              0,
+              12
+            ],
+            "range": [
+              0,
+              6.283185
+            ]
+          },
+          "stack": null
+        },
+        "radius": {
+          "field": "km",
+          "type": "quantitative",
+          "scale": {
+            "type": "sqrt",
+            "zero": true,
+            "rangeMin": 30,
+            "rangeMax": 185
+          },
+          "stack": null
+        },
+        "text": {
+          "field": "section",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

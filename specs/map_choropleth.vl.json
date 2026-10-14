@@ -1,0 +1,186 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 430,
+  "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+      -18,
+      -36
+    ],
+    "rotate": [
+      -132,
+      0,
+      0
+    ]
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "data/australia_states.geojson",
+        "format": {
+          "property": "features"
+        }
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "data/state_summary.csv",
+              "format": {
+                "type": "csv",
+                "parse": {
+                  "n_trails": "number",
+                  "avg_hours": "number",
+                  "total_km": "number"
+                }
+              }
+            },
+            "key": "name",
+            "fields": [
+              "avg_hours",
+              "n_trails"
+            ]
+          }
+        }
+      ],
+      "mark": {
+        "type": "geoshape",
+        "stroke": "#fff",
+        "strokeWidth": 1.2
+      },
+      "encoding": {
+        "color": {
+          "condition": {
+            "test": "!isValid(datum.avg_hours)",
+            "value": "#EDF0EC"
+          },
+          "field": "avg_hours",
+          "type": "quantitative",
+          "scale": {
+            "domain": [
+              1,
+              8
+            ],
+            "range": [
+              "#F8E2CE",
+              "#E8590C",
+              "#8E2B3A"
+            ]
+          },
+          "legend": {
+            "title": "Average hours per trail",
+            "titleLimit": 220,
+            "orient": "bottom-left",
+            "gradientLength": 150,
+            "values": [
+              2,
+              4,
+              6,
+              8
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "properties.name",
+            "title": "State"
+          },
+          {
+            "field": "n_trails",
+            "title": "Trails listed"
+          },
+          {
+            "field": "avg_hours",
+            "title": "Average hours per trail"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_labels.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "has_data": "number"
+          }
+        }
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12,
+        "fontWeight": 700,
+        "lineBreak": "\n"
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "abbr",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.has_data == 1 && datum.abbr != 'VIC'",
+            "value": "#ffffff"
+          },
+          "value": "#14231F"
+        }
+      }
+    },
+    {
+      "data": {
+        "url": "data/state_labels.csv",
+        "format": {
+          "type": "csv",
+          "parse": {
+            "lon": "number",
+            "lat": "number",
+            "has_data": "number"
+          }
+        }
+      },
+      "transform": [
+        {
+          "filter": "datum.has_data == 1"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "dy": 15
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        },
+        "color": {
+          "condition": {
+            "test": "datum.abbr != 'VIC'",
+            "value": "#ffffff"
+          },
+          "value": "#14231F"
+        }
+      }
+    }
+  ]
+}

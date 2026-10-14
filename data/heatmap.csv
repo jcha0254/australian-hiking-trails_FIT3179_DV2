@@ -1,0 +1,26 @@
+map_group,bracket,n,bracket_order
+SE Queensland,Under 1 h,0,0
+SE Queensland,1 to 2 h,1,1
+SE Queensland,2 to 4 h,2,2
+SE Queensland,4 to 8 h,3,3
+SE Queensland,8 h or more,2,4
+Wilsons Promontory,Under 1 h,3,0
+Wilsons Promontory,1 to 2 h,6,1
+Wilsons Promontory,2 to 4 h,8,2
+Wilsons Promontory,4 to 8 h,1,3
+Wilsons Promontory,8 h or more,0,4
+Flinders Ranges,Under 1 h,2,0
+Flinders Ranges,1 to 2 h,1,1
+Flinders Ranges,2 to 4 h,6,2
+Flinders Ranges,4 to 8 h,7,3
+Flinders Ranges,8 h or more,2,4
+Stirling Range,Under 1 h,0,0
+Stirling Range,1 to 2 h,0,1
+Stirling Range,2 to 4 h,1,2
+Stirling Range,4 to 8 h,0,3
+Stirling Range,8 h or more,0,4
+Larapinta Trail,Under 1 h,0,0
+Larapinta Trail,1 to 2 h,0,1
+Larapinta Trail,2 to 4 h,0,2
+Larapinta Trail,4 to 8 h,5,3
+Larapinta Trail,8 h or more,7,4
