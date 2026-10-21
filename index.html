@@ -2,21 +2,28 @@
 <html lang="en-AU">
 <head>
   <meta charset="utf-8">
+  <!-- Makes the page scale properly on phones. -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Beyond the Distance: what makes an Australian hike worth the walk?</title>
   <meta name="description" content="A data story comparing 57 trails in six Australian national parks by distance, time, grade and height.">
   <meta name="author" content="James Chan">
+  <!-- The tab icon is a tiny SVG written straight into the link, so there is no separate image file. -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cpath d=%22M2 28 12 8l5 9 3-5 10 16z%22 fill=%22%2314231F%22/%3E%3Crect x=%2222%22 y=%223%22 width=%224%22 height=%229%22 fill=%22%23E8590C%22/%3E%3C/svg%3E">
+  <!-- Fonts: Overpass (headings, labels, charts) and Newsreader (reading text), loaded from Google Fonts. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Overpass:wght@400;600;700;800&display=swap">
+  <!-- The page's own styles. -->
   <link rel="stylesheet" href="css/style.css">
+  <!-- The three libraries that draw the charts. They load from a CDN, so the page needs an internet connection. -->
   <script src="https://cdn.jsdelivr.net/npm/vega@6.4.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@6.5.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@7.3.0"></script>
 </head>
 <body>
 
+<!-- Top of the page: title, one-line summary, byline and four headline numbers.
+     The numbers are typed in by hand, so update them if the data changes. -->
 <header class="hero">
   <div class="wrap">
     <h1>Beyond the Distance</h1>
@@ -31,19 +38,20 @@
   </div>
 </header>
 
+<!-- Chapter menu. It sticks to the top of the screen. Each link jumps to the section with the matching id. -->
 <nav class="toc" aria-label="Chapters">
   <ol class="wrap">
     <li><a href="#ch1">Where</a></li>
     <li><a href="#ch2">How far</a></li>
     <li><a href="#ch3">How long</a></li>
     <li><a href="#ch4">How hard</a></li>
-    <li><a href="#all-trails">All trails</a></li>
     <li><a href="#about">About</a></li>
   </ol>
 </nav>
 
 <main>
 
+<!-- Introduction: two paragraphs, three key terms, and the colour guide that explains the colours used in every chart. -->
 <section class="intro">
   <div class="wrap">
     <p>Ask ten walkers what makes a trail good and you will get ten answers: the view, the summit, the swim at the end, the quiet. Distance is what trail signs print, so it is what most of us compare.</p>
@@ -53,9 +61,56 @@
       <div><b>Grade</b>The park agency's difficulty rating. Most use grades 1 (easiest) to 5. I group them into four bands.</div>
       <div><b>Summit route</b>A way up a peak with no formed track. Queensland Parks calls Mt Barney's routes "not walking tracks".</div>
     </div>
+    <div class="colour-guide" aria-labelledby="cg-title">
+      <h3 id="cg-title">How colour is used</h3>
+      <div class="cg-grid">
+        <div>
+          <b>Area</b>
+          <ul class="keys">
+            <li><i style="--c:#2F6E8E"></i>SE Queensland</li>
+            <li><i style="--c:#D98E04"></i>Wilsons Promontory</li>
+            <li><i style="--c:#B5472E"></i>Flinders Ranges</li>
+            <li><i style="--c:#5F8A3C"></i>Stirling Range</li>
+            <li><i style="--c:#8C3B72"></i>Larapinta Trail</li>
+          </ul>
+          <p>Five clearly different hues, one per area, kept the same on every chart. Areas are also named by a label or legend, so colour is never the only clue.</p>
+        </div>
+        <div>
+          <b>Grade</b>
+          <ul class="keys">
+            <li><i style="--c:#7DB38A"></i>Easy</li>
+            <li><i style="--c:#E2B73F"></i>Moderate</li>
+            <li><i style="--c:#DB6B2D"></i>Hard</li>
+            <li><i style="--c:#8E2B3A"></i>Very hard</li>
+            <li><i style="--c:#C3C9C4"></i>Not graded</li>
+          </ul>
+          <p>Green to dark red, like a traffic light: the warmer and darker, the harder the trail. Grey means the source gives no grade.</p>
+        </div>
+        <div>
+          <b>Time</b>
+          <ul class="keys">
+            <li><i style="--c:#8FBDB5"></i>Under 4 hours</li>
+            <li><i style="--c:#F1894A"></i>4 hours or more</li>
+            <li><i style="--c:#8E2B3A"></i>Longest on average</li>
+          </ul>
+          <p>Teal is the short side and orange the long side, and a darker orange means a longer time. Orange is also the trail-marker colour of this page.</p>
+        </div>
+        <div>
+          <b>Grey on maps</b>
+          <ul class="keys">
+            <li><i style="--c:#D3D9D4"></i>No trail data</li>
+          </ul>
+          <p>Land with no trail in this story is grey. A state with data is filled with a colour instead.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
+<!-- Chapter 1, Where: two maps.
+     Every chart on the page follows the same pattern. A <figure class="card"> holds a heading, a short description,
+     an empty <div> and a caption. js/main.js finds the <div> by its id and draws the chart inside it.
+     The aria-label on the <div> describes the chart for screen readers. -->
 <section class="chapter" id="ch1">
   <div class="wrap">
     <header class="ch-head">
@@ -65,21 +120,23 @@
     <div class="grid-2">
       <figure class="card">
         <h3>Larapinta and the Flinders Ranges hold the most trail</h3>
-        <p class="sub">Combined published distance of each area's trails. Mt Barney and Springbrook share one circle (about 55 km apart). Hover for details.</p>
+        <p class="sub">Circle size is the combined published distance of each area's trails and colour names the area. Mt Barney and Springbrook share one circle (about 55 km apart). Grey land has no trail data. Hover for details.</p>
         <div id="vis-symbols" class="chart" role="img" aria-label="Map of Australia with one circle per walking area, sized by combined trail distance. Larapinta Trail and Flinders Ranges have the largest circles."></div>
         <figcaption>Sources: QPWS, Parks Victoria, NT Parks and Wildlife, Walking SA, Trails WA. Boundaries: Natural Earth. Projection: conic equal-area.</figcaption>
       </figure>
       <figure class="card">
         <h3>The nearest park is 182 km from Melbourne, the furthest 2,421 km</h3>
-        <p class="sub">Straight-line distance from Melbourne to each area, not driving distance.</p>
+        <p class="sub">Straight-line distance from Melbourne (orange diamond) to each area, not driving distance. Line colour is the area; grey land has no trail data.</p>
         <div id="vis-flow" class="chart" role="img" aria-label="Map of Australia with dashed lines from Melbourne to each walking area: Wilsons Promontory 182 km, Flinders Ranges 909 km, SE Queensland 1,298 km, Larapinta 1,945 km and Stirling Range 2,421 km."></div>
         <figcaption>Distances calculated from area coordinates (great-circle). Coordinates are approximate for most areas; see About.</figcaption>
       </figure>
     </div>
-    <p class="note">On the maps, trails inside the same area are drawn as one symbol so the maps stay readable. Every trail is still listed separately in the charts and in the full table at the bottom.</p>
+    <p class="note">On the maps, trails inside the same area are drawn as one symbol so the maps stay readable. Every trail is still listed separately in the charts below.</p>
   </div>
 </section>
 
+<!-- Chapter 2, How far: a scatter plot, a ranked bar chart and the treemap.
+     The treemap is drawn from a plain Vega spec; the others are Vega-Lite. -->
 <section class="chapter alt" id="ch2">
   <div class="wrap">
     <header class="ch-head">
@@ -89,26 +146,27 @@
     <div class="grid-2">
       <figure class="card">
         <h3>Larapinta sections take far longer than their length suggests</h3>
-        <p class="sub">Each dot is one trail. A dot high above the 4 km per hour line is slow going for its distance. Click the legend to focus on one area.</p>
+        <p class="sub">Each dot is one trail. A dot high above the 4 km per hour line is slow going for its distance. Colour is the area and shape shows how the trail is measured. Click the legend to focus on one area.</p>
         <div id="vis-scatter" class="chart" role="img" aria-label="Scatter plot of trail distance against trail time. Larapinta sections sit high above the others; Wilsons Promontory walks cluster at the bottom left."></div>
         <figcaption>Sources: as listed in About. Trails without a published distance (three Mt Barney summit routes) are not shown.</figcaption>
       </figure>
       <figure class="card">
         <h3>Seven of the ten longest trails are Larapinta sections</h3>
-        <p class="sub">The ten longest trails with a published distance, in kilometres.</p>
+        <p class="sub">The ten longest trails with a published distance, in kilometres. Purple bars are Larapinta sections; grey bars are trails from other areas (all in the Flinders Ranges).</p>
         <div id="vis-longest" class="chart" role="img" aria-label="Bar chart of the ten longest trails. Larapinta sections 6 and 9 are longest at 28.9 km."></div>
         <figcaption>Larapinta Section 12 (15 km) is a return trip to the summit of Mt Sonder; other Larapinta sections are one way.</figcaption>
       </figure>
     </div>
     <figure class="card full">
       <h3>Two places hold almost three-quarters of the kilometres</h3>
-      <p class="sub">Every trail with a published distance, as a block sized by kilometres. Larapinta and the Flinders Ranges make up 73% of the total. Hover a block for its name.</p>
+      <p class="sub">Every trail with a published distance, as a block sized by kilometres and coloured by area. Larapinta and the Flinders Ranges make up 73% of the total. Hover a block for its full name and distance. To read the small blocks, pick one area in the menu below or drag the height slider.</p>
       <div id="vis-treemap" class="chart" role="img" aria-label="Treemap of 54 trails grouped by area. The Larapinta Trail and Flinders Ranges blocks are the largest."></div>
       <figcaption>Combined distances are sums of published figures. Some are one way and some are return, so treat totals as a guide to scale, not an exact length of path.</figcaption>
     </figure>
   </div>
 </section>
 
+<!-- Chapter 3, How long: a diverging bar chart, a dot-and-range chart and a map of average time per state. -->
 <section class="chapter" id="ch3">
   <div class="wrap">
     <header class="ch-head">
@@ -117,20 +175,20 @@
     </header>
     <figure class="card full">
       <h3>Half of Wilsons Prom's trails take under two hours; every Larapinta section takes four or more</h3>
-      <p class="sub">Number of trails in each time slot. A slot includes its lower number (a 2 hour walk is in "2 to 4 h"). Time as published; ranges use the middle value.</p>
-      <div id="vis-heatmap" class="chart" role="img" aria-label="Heatmap of trails by area and time. Wilsons Promontory has 9 of its 18 trails under 2 hours. All 12 Larapinta sections take 4 hours or more."></div>
-      <figcaption>Sources: as listed in About.</figcaption>
+      <p class="sub">Each bar is one area's trails, split at four hours: teal (left of the black line) is under 4 hours and orange (right) is 4 hours or more. Bar length is the share of the area's trails; the number inside is the trail count. A walk counts in a slot from its lower number (a 2 hour walk is in "2 to 4 h").</p>
+      <div id="vis-timesplit" class="chart" role="img" aria-label="Diverging bar chart of trail times by area, split at four hours. Wilsons Promontory has 9 of its 18 trails under 2 hours and 17 under 4 hours. All 12 Larapinta sections take 4 hours or more."></div>
+      <figcaption>Time as published; ranges use the middle value. Sources: as listed in About.</figcaption>
     </figure>
     <div class="grid-2">
       <figure class="card">
         <h3>The shortest Larapinta section takes longer than 30 of the 45 trails elsewhere</h3>
-        <p class="sub">Each dot is one trail. The bar spans an area's shortest to longest trail and the black tick marks its average.</p>
+        <p class="sub">Each dot is one trail and its colour is the area. The bar spans an area's shortest to longest trail and the black tick marks its average.</p>
         <div id="vis-timerange" class="chart" role="img" aria-label="Dot chart of trail times by area. Larapinta 4 to 12 hours, average 7.8. SE Queensland 1 to 9, average 4.9. Flinders Ranges 0.5 to 9, average 4.0. Stirling Range 3.5. Wilsons Promontory 0.5 to 4, average 1.8."></div>
         <figcaption>Time as published; ranges use the middle value. "Elsewhere" means every trail outside Larapinta (45 trails).</figcaption>
       </figure>
       <figure class="card">
         <h3>Northern Territory trails take the longest on average</h3>
-        <p class="sub">Average published time per trail by state. New South Wales, Tasmania and the ACT have no trail in this story.</p>
+        <p class="sub">Average published time per trail by state. A darker orange is a longer average. Grey states (New South Wales, Tasmania and the ACT) have no trail in this story.</p>
         <div id="vis-choropleth" class="chart" role="img" aria-label="Map of Australia with states shaded by average hours per trail: Northern Territory 7.8, Queensland 4.9, South Australia 4.0, Western Australia 3.5, Victoria 1.8."></div>
         <figcaption>Averages are across the trails chosen for this story, not every trail in each state.</figcaption>
       </figure>
@@ -139,6 +197,8 @@
 </section>
 
 
+<!-- Chapter 4, How hard: a waffle chart of grades (it scrolls sideways on a phone),
+     a skyline of peak heights and a rank chart of the Larapinta sections. -->
 <section class="chapter alt" id="ch4">
   <div class="wrap">
     <header class="ch-head">
@@ -147,28 +207,29 @@
     </header>
     <figure class="card full">
       <h3>Of the 38 graded trails, Hard is the most common (18)</h3>
-      <p class="sub">Each square is one trail, grouped by area. Grey squares have no grade in the source: all 18 Flinders Ranges walks and one Wilsons Prom walk.</p>
+      <p class="sub">Each square is one trail, grouped by area. Colour is the grade band, green for Easy to dark red for Very hard. Grey squares have no grade in the source: all 18 Flinders Ranges walks and one Wilsons Prom walk.</p>
       <div id="vis-waffle" class="chart scroll" role="img" aria-label="Waffle charts of trail grades for each area. Larapinta has mostly Hard sections; Wilsons Promontory mostly Easy and Moderate; Flinders Ranges has no grades."></div>
       <figcaption>Bands: Easy is grades 1 to 2, Moderate is grade 3, Hard is grade 4 and Larapinta's "Hard". Very hard is Larapinta's top rating plus Mt Barney's summit routes, which Queensland Parks does not grade (my grouping).</figcaption>
     </figure>
     <div class="grid-2">
       <figure class="card">
         <h3>Mt Sonder, at the end of the Larapinta Trail, is the highest summit</h3>
-        <p class="sub">Heights of the summits named by the sources. Triangles show height only, not width.</p>
+        <p class="sub">Heights of the summits named by the sources, coloured by area. Triangles show height only, not width.</p>
         <div id="vis-skyline" class="chart" role="img" aria-label="Skyline of five peaks: Mt Sonder 1,379 m, Mt Barney 1,354 m, St Mary Peak 1,171 m, Bluff Knoll 1,098 m and Mt Maroon 966 m."></div>
         <figcaption>Sources: larapintatrail.com.au, QPWS, SA Government, Trails WA. Mt Barney's height is for East Peak. Wilsons Prom and Springbrook walks have no summit height in the sources used.</figcaption>
       </figure>
       <figure class="card">
-        <h3>Larapinta in 12 slices: the longest sections are not the hardest</h3>
-        <p class="sub">Each slice is one section, starting at the top and moving clockwise. Slice length shows distance in kilometres.</p>
-        <div id="vis-radial" class="chart" role="img" aria-label="Radial bar chart of the 12 Larapinta sections by distance and grade. Sections 6 and 9 are longest at 28.9 km; only sections 4, 5 and 9 are rated Very hard."></div>
-        <figcaption>Section 12 is a 15 km return to the summit of Mt Sonder. Sources: NT Parks and Wildlife (distances), larapintatrail.com.au (grades).</figcaption>
+        <h3>Larapinta Section 5 jumps from 8th by distance to joint 3rd by time</h3>
+        <p class="sub">Each line joins one section's rank by distance (left) to its rank by time (right), longest first. Line colour is the grade: amber Moderate, orange Hard, dark red Very hard. Ties are ranked in section order.</p>
+        <div id="vis-rank" class="chart" role="img" aria-label="Rank chart of the 12 Larapinta sections by distance and by time. Section 5 is 8th by distance but joint 3rd by time. Sections 4, 5 and 9 are rated Very hard."></div>
+        <figcaption>Section 12 is a 15 km return to the summit of Mt Sonder. Sources: NT Parks and Wildlife (distances), larapintatrail.com.au (times and grades).</figcaption>
       </figure>
     </div>
   </div>
 </section>
 
 
+<!-- Closing section: the three takeaways. The numbers in these are also typed by hand. -->
 <section class="ending">
   <div class="wrap">
     <h2>The number on the sign is a start, not the answer.</h2>
@@ -180,28 +241,17 @@
   </div>
 </section>
 
-<section class="table-section" id="all-trails">
-  <div class="wrap">
-    <h2>Every trail, listed separately</h2>
-    <p class="note">All 57 trails and sections, plus the Larapinta Trail as a whole. Figures are exactly as published; the whole-trail row is not added to any total.</p>
-    <div class="table-tools">
-      <label>Search <input id="q" type="search" placeholder="e.g. summit, Prom, Section 9"></label>
-      <label>Area
-        <select id="area"><option value="">All areas</option></select>
-      </label>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Trail</th><th>Area</th><th class="num">Distance (km)</th><th class="num">Time (hours)</th><th>Grade in source</th><th>Sources</th></tr></thead>
-        <tbody id="rows"></tbody>
-      </table>
-    </div>
-    <p class="count" id="count"></p>
-  </div>
-</section>
-
 </main>
 
+<!-- Disclaimer: the small print at the very bottom of the page. -->
+<footer class="disclaimer">
+  <div class="wrap">
+    <h2>Disclaimer</h2>
+    <p>Trail times on this page are walking times only. Some trails may actually take days to finish, because the times used here do not include breaks, rest stops, meals, overnight stays and so on. All figures (distances, times and grades) are just what the credible source for each trail says; I have not measured or checked them myself.</p>
+  </div>
+</footer>
+
+<!-- main.js goes last, so the chart divs above already exist when it runs. -->
 <script src="js/main.js"></script>
 </body>
 </html>

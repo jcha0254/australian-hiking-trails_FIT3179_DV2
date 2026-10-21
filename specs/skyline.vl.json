@@ -1,108 +1,42 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
   "width": "container",
-  "height": 380,
+  "height": 438,
   "data": {
     "url": "data/skyline.csv",
-    "format": {
-      "type": "csv",
-      "parse": {
-        "height_m": "number",
-        "x": "number",
-        "y": "number",
-        "ord": "number"
-      }
-    }
+    "format": {"type": "csv", "parse": {"height_m": "number", "x": "number", "y": "number", "ord": "number"}}
   },
   "layer": [
     {
-      "mark": {
-        "type": "area",
-        "interpolate": "linear",
-        "opacity": 0.92
-      },
+      "mark": {"type": "area", "interpolate": "linear", "opacity": 0.92},
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative",
-          "axis": null,
-          "scale": {
-            "domain": [
-              -9,
-              69
-            ]
-          }
-        },
+        "x": {"field": "x", "type": "quantitative", "axis": null, "scale": {"domain": [-9, 69]}},
         "y": {
           "field": "y",
           "type": "quantitative",
           "title": "Height above sea level (m)",
-          "scale": {
-            "domain": [
-              0,
-              1500
-            ]
-          },
-          "axis": {
-            "values": [
-              0,
-              500,
-              1000,
-              1500
-            ]
-          }
+          "scale": {"domain": [0, 1500]},
+          "axis": {"values": [0, 500, 1000, 1500]}
         },
-        "detail": {
-          "field": "peak",
-          "type": "nominal"
-        },
+        "detail": {"field": "peak", "type": "nominal"},
         "color": {
           "field": "map_group",
           "type": "nominal",
           "scale": {
-            "domain": [
-              "SE Queensland",
-              "Wilsons Promontory",
-              "Flinders Ranges",
-              "Stirling Range",
-              "Larapinta Trail"
-            ],
-            "range": [
-              "#2F6E8E",
-              "#D98E04",
-              "#B5472E",
-              "#5F8A3C",
-              "#8C3B72"
-            ]
+            "domain": ["SE Queensland", "Wilsons Promontory", "Flinders Ranges", "Stirling Range", "Larapinta Trail"],
+            "range": ["#2F6E8E", "#D98E04", "#B5472E", "#5F8A3C", "#8C3B72"]
           },
           "legend": null
         },
         "tooltip": [
-          {
-            "field": "peak",
-            "title": "Peak"
-          },
-          {
-            "field": "height_m",
-            "title": "Height (m)"
-          },
-          {
-            "field": "map_group",
-            "title": "Area"
-          }
+          {"field": "peak", "title": "Peak"},
+          {"field": "height_m", "title": "Height (m)"},
+          {"field": "map_group", "title": "Area"}
         ]
       }
     },
     {
-      "transform": [
-        {
-          "filter": "datum.ord == 1"
-        },
-        {
-          "calculate": "[datum.peak, format(datum.height_m, ',') + ' m']",
-          "as": "lab"
-        }
-      ],
+      "transform": [{"filter": "datum.ord == 1"}, {"calculate": "[datum.peak, format(datum.height_m, ',') + ' m']", "as": "lab"}],
       "mark": {
         "type": "text",
         "dy": -6,
@@ -113,18 +47,9 @@
         "color": "#14231F"
       },
       "encoding": {
-        "x": {
-          "field": "x",
-          "type": "quantitative"
-        },
-        "y": {
-          "field": "y",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "lab",
-          "type": "nominal"
-        }
+        "x": {"field": "x", "type": "quantitative"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "lab", "type": "nominal"}
       }
     }
   ]

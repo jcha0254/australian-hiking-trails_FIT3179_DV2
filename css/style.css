@@ -1,6 +1,13 @@
 /* Beyond the Distance: styles
    Type: Overpass (trail-signage letterforms) for headings, labels and charts; Newsreader for reading text.
-   Colour: chalk paper, deep eucalypt ink, one trail-marker orange. Area colours match the charts. */
+   Colour: chalk paper, deep eucalypt ink, one trail-marker orange. Area colours match the charts.
+
+   The file follows the page from top to bottom:
+   variables, base rules, header, menu, intro, chapters and chart cards, ending,
+   about, disclaimer, then the rules for small screens. */
+
+/* Variables: colours, fonts and the page width are written once here and used
+   everywhere else with var(--name). */
 :root {
   --paper: #EEF1EC;
   --card: #FFFFFF;
@@ -8,110 +15,664 @@
   --muted: #55645E;
   --line: #D3DAD3;
   --blaze: #E8590C;
-  --qld: #2F6E8E; --vic: #D98E04; --sa: #B5472E; --wa: #5F8A3C; --nt: #8C3B72;
+  /* The five area colours. They must match the colours used in the specs folder. */
+  --qld: #2F6E8E;
+  --vic: #D98E04;
+  --sa: #B5472E;
+  --wa: #5F8A3C;
+  --nt: #8C3B72;
   --sans: "Overpass", "Segoe UI", system-ui, sans-serif;
   --serif: "Newsreader", Georgia, "Times New Roman", serif;
   --wrap: 1120px;
 }
-*, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 64px; }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--serif); font-size: 1.125rem; line-height: 1.65; -webkit-font-smoothing: antialiased; }
-a { color: var(--ink); text-decoration-color: var(--blaze); text-decoration-thickness: 2px; text-underline-offset: 3px; }
-a:hover { color: var(--blaze); }
-:focus-visible { outline: 3px solid var(--blaze); outline-offset: 2px; }
-.wrap { width: min(var(--wrap), 100% - 2.5rem); margin-inline: auto; }
-h1, h2, h3, h4 { font-family: var(--sans); line-height: 1.15; margin: 0; }
+
+/* Reset: width and height include padding and borders, which makes sizes easier to work out. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Smooth scrolling for the menu links. scroll-padding stops a heading hiding under the sticky menu bar. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 64px;
+}
+
+/* Reading text uses the serif font. Headings, labels and charts switch to the sans font below. */
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Links: dark text with an orange underline. */
+a {
+  color: var(--ink);
+  text-decoration-color: var(--blaze);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--blaze);
+}
+
+/* Keyboard focus ring, so people using the Tab key can see where they are. */
+:focus-visible {
+  outline: 3px solid var(--blaze);
+  outline-offset: 2px;
+}
+
+/* .wrap keeps content centred and no wider than the page width, with a small gap each side on phones. */
+.wrap {
+  width: min(var(--wrap), 100% - 2.5rem);
+  margin-inline: auto;
+}
+
+/* Every heading uses the sans font. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--sans);
+  line-height: 1.15;
+  margin: 0;
+}
 
 /* ---------- Header ---------- */
-.hero { position: relative; padding: clamp(3rem, 8vw, 6.5rem) 0 0; overflow: hidden; border-bottom: 1px solid var(--line); }
-.hero::before { content: ""; position: absolute; inset: 0; background: url(../img/contours.svg) right center / cover no-repeat; animation: appear 1.8s ease-out both; pointer-events: none; }
-@keyframes appear { from { opacity: 0; } to { opacity: 1; } }
-.hero .wrap { position: relative; }
-.hero h1 { font-weight: 800; font-size: clamp(3rem, 9vw, 7rem); letter-spacing: -0.025em; max-width: 12ch; }
-.dek { font-size: clamp(1.2rem, 2.4vw, 1.6rem); max-width: 34ch; margin: 1.25rem 0 1rem; border-left: 6px solid var(--blaze); padding-left: 1rem; line-height: 1.4; }
-.byline { font-family: var(--sans); font-size: 0.95rem; color: var(--muted); margin: 0 0 clamp(2rem, 5vw, 3.5rem); }
-.stats { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--line); background: rgba(255,255,255,.72); backdrop-filter: blur(2px); }
-.stats div { padding: 1.1rem 1.25rem 1.2rem; border-right: 1px solid var(--line); }
-.stats div:last-child { border-right: 0; }
-.stats b { display: block; font-family: var(--sans); font-weight: 800; font-size: clamp(1.35rem, 2.8vw, 2.1rem); line-height: 1.1; white-space: nowrap; }
-.stats span { display: block; font-family: var(--sans); font-size: 0.9rem; color: var(--muted); line-height: 1.35; margin-top: 0.25rem; }
+/* The hero is the block at the top: title, summary line, byline and the four headline numbers. */
+.hero {
+  position: relative;
+  padding: clamp(3rem, 8vw, 6.5rem) 0 0;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+}
+
+/* A faint contour-line picture sits behind the hero. It is a pseudo-element so the text stays on top, and it fades in on load. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url(../img/contours.svg) right center / cover no-repeat;
+  animation: appear 1.8s ease-out both;
+  pointer-events: none;
+}
+
+/* The fade-in used by the hero picture. */
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* position: relative lifts the text above the contour picture. */
+.hero .wrap {
+  position: relative;
+}
+
+.hero h1 {
+  font-weight: 800;
+  font-size: clamp(3rem, 9vw, 7rem);
+  letter-spacing: -0.025em;
+  max-width: 12ch;
+}
+
+/* The one-line summary under the title, with an orange bar on its left. */
+.dek {
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  max-width: 34ch;
+  margin: 1.25rem 0 1rem;
+  border-left: 6px solid var(--blaze);
+  padding-left: 1rem;
+  line-height: 1.4;
+}
+
+.byline {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--muted);
+  margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+}
+
+/* The four headline numbers: a four-column grid, with thin lines between them. */
+.stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.stats div {
+  padding: 1.1rem 1.25rem 1.2rem;
+  border-right: 1px solid var(--line);
+}
+
+.stats div:last-child {
+  border-right: 0;
+}
+
+/* The big number. white-space: nowrap keeps something like "1.8 vs 7.8 h" on one line. */
+.stats b {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 800;
+  font-size: clamp(1.35rem, 2.8vw, 2.1rem);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.stats span {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.35;
+  margin-top: 0.25rem;
+}
 
 /* ---------- Navigation ---------- */
-.toc { position: sticky; top: 0; z-index: 20; background: var(--ink); }
-.toc ol { list-style: none; margin: 0 auto; padding: 0; display: flex; gap: 0.25rem; overflow-x: auto; scrollbar-width: none; }
-.toc a { display: block; padding: 0.8rem 0.9rem; font-family: var(--sans); font-weight: 600; font-size: 0.95rem; color: #fff; text-decoration: none; white-space: nowrap; border-bottom: 3px solid transparent; }
-.toc a:hover, .toc a:focus-visible { color: #fff; border-bottom-color: var(--blaze); }
+/* position: sticky keeps the chapter menu stuck to the top of the screen while the page scrolls. */
+.toc {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--ink);
+}
+
+/* The menu is a row of links. On a narrow phone it scrolls sideways instead of wrapping. */
+.toc ol {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+/* Each link has a see-through bottom border that turns orange on hover. */
+.toc a {
+  display: block;
+  padding: 0.8rem 0.9rem;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+}
+
+.toc a:hover,
+.toc a:focus-visible {
+  color: #fff;
+  border-bottom-color: var(--blaze);
+}
 
 /* ---------- Intro ---------- */
-.intro { padding: clamp(2.5rem, 6vw, 4.5rem) 0 1rem; }
-.intro p { max-width: 62ch; margin: 0 0 1rem; }
-.intro p:first-child { font-size: 1.35rem; line-height: 1.5; }
-.terms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.75rem; font-family: var(--sans); font-size: 0.95rem; line-height: 1.5; }
-.terms div { border-top: 3px solid var(--ink); padding-top: 0.6rem; }
-.terms b { display: block; margin-bottom: 0.15rem; }
+.intro {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 1rem;
+}
+
+.intro p {
+  max-width: 62ch;
+  margin: 0 0 1rem;
+}
+
+/* The first paragraph is a little bigger than the others. */
+.intro p:first-child {
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+/* The three key terms (Trail, Grade, Summit route), side by side. */
+.terms {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.75rem;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.terms div {
+  border-top: 3px solid var(--ink);
+  padding-top: 0.6rem;
+}
+
+.terms b {
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+/* The "How colour is used" box. */
+.colour-guide {
+  margin-top: 2rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--sans);
+}
+
+.colour-guide h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.85rem;
+}
+
+.cg-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.cg-grid b {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.95rem;
+}
+
+.keys {
+  list-style: none;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.keys li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* One colour key: a small rounded square. Its colour comes from the --c variable set inline in index.html, for example style="--c:#2F6E8E". */
+.keys i {
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  border-radius: 3px;
+  background: var(--c);
+  border: 1px solid rgba(20, 35, 31, 0.2);
+}
+
+.cg-grid p {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
 
 /* ---------- Chapters ---------- */
-.chapter { padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
-.chapter.alt { background: #E5EAE4; }
-.ch-head { max-width: 46rem; margin-bottom: 1.75rem; }
-.ch-head h2 { font-weight: 800; font-size: clamp(1.9rem, 4.2vw, 3rem); letter-spacing: -0.015em; }
-.ch-head h2::before { content: ""; display: inline-block; width: 0.34em; height: 0.8em; background: var(--blaze); margin-right: 0.35em; vertical-align: -0.04em; border-radius: 1px; }
-.ch-head p { font-size: 1.2rem; margin: 0.6rem 0 0; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; align-items: stretch; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 1.25rem 1.25rem 1rem; margin: 0; display: flex; flex-direction: column; min-width: 0; }
-.card.full { margin-bottom: 1.5rem; }
-.card h3 { font-weight: 700; font-size: 1.3rem; letter-spacing: -0.005em; }
-.card .sub { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); margin: 0.35rem 0 0.9rem; line-height: 1.4; }
-.chart { width: 100%; min-height: 200px; }
-.chart.scroll { overflow-x: auto; }
-.card figcaption { margin-top: auto; padding-top: 0.75rem; font-family: var(--sans); font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
-.note { font-family: var(--sans); font-size: 0.92rem; color: var(--muted); max-width: 70ch; margin: 0 0 1.5rem; }
-.chart-error { font-family: var(--sans); font-size: 0.9rem; padding: 1rem; border: 1px dashed var(--blaze); color: var(--ink); background: #FFF4EC; border-radius: 4px; }
-.vega-embed { width: 100%; }
-.vega-embed summary { display: none; }
+.chapter {
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0;
+}
+
+/* Every second chapter has a slightly darker background, so the sections are easy to tell apart. */
+.chapter.alt {
+  background: #E5EAE4;
+}
+
+.ch-head {
+  max-width: 46rem;
+  margin-bottom: 1.75rem;
+}
+
+.ch-head h2 {
+  font-weight: 800;
+  font-size: clamp(1.9rem, 4.2vw, 3rem);
+  letter-spacing: -0.015em;
+}
+
+/* The little orange bar before each chapter heading. It is drawn with CSS, so there is no image to load. */
+.ch-head h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.34em;
+  height: 0.8em;
+  background: var(--blaze);
+  margin-right: 0.35em;
+  vertical-align: -0.04em;
+  border-radius: 1px;
+}
+
+.ch-head p {
+  font-size: 1.2rem;
+  margin: 0.6rem 0 0;
+}
+
+/* Two cards side by side. They stack into one column on small screens (see the bottom of this file). */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: stretch;
+}
+
+/* A white box holding one chart: heading, short description, the chart and a caption.
+   flex + column lets the caption sit at the bottom. min-width: 0 stops a wide chart stretching the card. */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 1.25rem 1.25rem 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.card.full {
+  margin-bottom: 1.5rem;
+}
+
+.card h3 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: -0.005em;
+}
+
+.card .sub {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0.35rem 0 0.9rem;
+  line-height: 1.4;
+}
+
+/* The empty box that Vega-Embed draws a chart into. */
+.chart {
+  width: 100%;
+  min-height: 200px;
+}
+
+/* Used for the waffle chart, which has a fixed width, so it can scroll sideways on a phone. */
+.chart.scroll {
+  overflow-x: auto;
+  min-height: 0;
+}
+
+/* margin-top: auto pushes the caption to the bottom of the card, so captions line up across a row. */
+.card figcaption {
+  margin-top: auto;
+  padding-top: 0.75rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.note {
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  color: var(--muted);
+  max-width: 70ch;
+  margin: 0 0 1.5rem;
+}
+
+/* The message main.js shows when a chart fails to load. */
+.chart-error {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  padding: 1rem;
+  border: 1px dashed var(--blaze);
+  color: var(--ink);
+  background: #FFF4EC;
+  border-radius: 4px;
+}
+
+/* .vega-embed is the wrapper Vega-Embed adds around each chart. */
+.vega-embed {
+  width: 100%;
+}
+
+/* Controls under a chart (the treemap's area menu and height slider).
+   Vega-Embed always adds a .vega-bindings box. It is hidden when empty, and only styled when it holds a control. */
+.vega-bindings:empty {
+  display: none;
+}
+
+.vega-bindings:has(.vega-bind) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.75rem;
+  margin-top: 0.85rem;
+  padding: 0.6rem 0.9rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+}
+
+.vega-bind label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.vega-bind-name {
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.vega-bind select {
+  font: inherit;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #9AA6A0;
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink);
+}
+
+.vega-bind input[type="range"] {
+  width: 11rem;
+  accent-color: var(--blaze);
+}
+
+.vega-bind label span:last-child {
+  min-width: 2.2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chart menu: the "..." button opens Save as SVG / Save as PNG. It sits in a narrow gutter so it never covers a chart. */
+.vega-embed.has-actions {
+  padding-right: 34px;
+}
+
+.vega-embed summary {
+  opacity: 0.55;
+  border-color: var(--ink);
+}
+
+.vega-embed summary:hover,
+.vega-embed details[open] summary {
+  opacity: 1;
+}
+
+.vega-embed .vega-actions {
+  font-family: var(--sans);
+}
+
+.vega-embed .vega-actions a {
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--ink);
+}
 
 /* ---------- Ending ---------- */
-.ending { background: var(--ink); color: var(--paper); padding: clamp(3rem, 7vw, 5.5rem) 0; }
-.ending a { color: #fff; }
-.ending h2 { font-weight: 800; font-size: clamp(2rem, 5vw, 3.6rem); max-width: 18ch; letter-spacing: -0.02em; margin-bottom: 2rem; }
-.takeaways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
-.takeaways div { border-top: 3px solid var(--blaze); padding-top: 0.85rem; font-size: 1.1rem; line-height: 1.5; }
-.takeaways b { display: block; font-family: var(--sans); font-size: 1.25rem; margin-bottom: 0.35rem; color: #fff; }
+/* The dark closing section with the three takeaways. */
+.ending {
+  background: var(--ink);
+  color: var(--paper);
+  padding: clamp(3rem, 7vw, 5.5rem) 0;
+}
 
-/* ---------- Trail table ---------- */
-.table-section { padding: clamp(2.5rem, 5vw, 3.5rem) 0; }
-.table-section h2 { font-weight: 800; font-size: clamp(1.6rem, 3.4vw, 2.3rem); margin-bottom: 0.5rem; }
-.table-tools { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1rem 0; font-family: var(--sans); font-size: 0.95rem; }
-.table-tools label { display: flex; align-items: center; gap: 0.5rem; }
-.table-tools input, .table-tools select { font: inherit; padding: 0.45rem 0.6rem; border: 1px solid #9aa6a0; border-radius: 4px; background: #fff; color: var(--ink); }
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: #fff; max-height: 520px; overflow-y: auto; }
-table { border-collapse: collapse; width: 100%; font-family: var(--sans); font-size: 0.9rem; }
-th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-th { position: sticky; top: 0; background: #F6F8F5; font-weight: 700; z-index: 1; }
-td.num, th.num { text-align: right; white-space: nowrap; }
-.dot { display: inline-block; width: 0.7em; height: 0.7em; border-radius: 50%; margin-right: 0.45em; }
-.row-whole td { color: var(--muted); font-style: italic; }
-.count { font-family: var(--sans); font-size: 0.9rem; color: var(--muted); margin: 0.6rem 0 0; }
+.ending a {
+  color: #fff;
+}
+
+.ending h2 {
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  max-width: 18ch;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.takeaways {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.takeaways div {
+  border-top: 3px solid var(--blaze);
+  padding-top: 0.85rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.takeaways b {
+  display: block;
+  font-family: var(--sans);
+  font-size: 1.25rem;
+  margin-bottom: 0.35rem;
+  color: #fff;
+}
 
 /* ---------- About ---------- */
-.about { background: #E5EAE4; border-top: 1px solid var(--line); padding: clamp(2.5rem, 6vw, 4rem) 0; font-size: 1rem; line-height: 1.6; }
-.about h2 { font-weight: 800; font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin-bottom: 1.25rem; }
-.about h3 { font-size: 1.1rem; margin: 1.4rem 0 0.4rem; }
-.about h3:first-child { margin-top: 0; }
-.meta-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
-.about p { margin: 0 0 0.75rem; }
-.about ol, .about ul { padding-left: 1.2rem; margin: 0 0 0.75rem; }
-.about li { margin-bottom: 0.4rem; overflow-wrap: anywhere; }
-.about code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.88em; background: #fff; padding: 0.05em 0.3em; border-radius: 3px; }
+/* About section. The page does not contain one at the moment (the menu still links to #about),
+   so the rules down to the disclaimer are not being used right now. */
+.about {
+  background: #E5EAE4;
+  border-top: 1px solid var(--line);
+  padding: clamp(2.5rem, 6vw, 4rem) 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.about h2 {
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.6vw, 2.5rem);
+  margin-bottom: 1.25rem;
+}
+
+.about h3 {
+  font-size: 1.1rem;
+  margin: 1.4rem 0 0.4rem;
+}
+
+.about h3:first-child {
+  margin-top: 0;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.about p {
+  margin: 0 0 0.75rem;
+}
+
+.about ol,
+.about ul {
+  padding-left: 1.2rem;
+  margin: 0 0 0.75rem;
+}
+
+.about li {
+  margin-bottom: 0.4rem;
+  overflow-wrap: anywhere;
+}
+
+.about code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  background: #fff;
+  padding: 0.05em 0.3em;
+  border-radius: 3px;
+}
+
+/* ---------- Disclaimer ---------- */
+/* The small print at the very bottom of the page, under the closing takeaways. */
+.disclaimer {
+  background: #E5EAE4;
+  border-top: 1px solid var(--line);
+  padding: 1.75rem 0 2.25rem;
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.disclaimer h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.4rem;
+}
+
+.disclaimer p {
+  max-width: 80ch;
+  margin: 0;
+}
 
 /* ---------- Responsive ---------- */
+/* Tablets and phones: stack the columns. */
 @media (max-width: 960px) {
-  .grid-2, .meta-grid, .takeaways, .terms { grid-template-columns: 1fr; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
-  .stats div:nth-child(2) { border-right: 0; }
-  .stats div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .grid-2,
+  .meta-grid,
+  .takeaways,
+  .terms {
+    grid-template-columns: 1fr;
+  }
+  .cg-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stats div:nth-child(2) {
+    border-right: 0;
+  }
+  .stats div:nth-child(-n+2) {
+    border-bottom: 1px solid var(--line);
+  }
 }
+
+/* Small phones: the colour guide becomes a single column. */
+@media (max-width: 560px) {
+  .cg-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* If the visitor's device asks for less motion, turn off smooth scrolling and the hero fade-in. */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  .hero::before { animation: none; }
+  html {
+    scroll-behavior: auto;
+  }
+  .hero::before {
+    animation: none;
+  }
 }

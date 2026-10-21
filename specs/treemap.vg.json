@@ -1,64 +1,53 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "description": "Treemap of every trail with a published distance, sized by km and coloured by area. A menu isolates one area and a slider changes the height, so small blocks can be read. Vega is used because Vega-Lite has no treemap layout.",
   "padding": 0,
-  "autosize": {
-    "type": "fit",
-    "contains": "padding"
-  },
+  "autosize": {"type": "fit", "contains": "padding"},
   "signals": [
     {
       "name": "width",
       "init": "containerSize()[0]",
-      "on": [
-        {
-          "events": "window:resize",
-          "update": "containerSize()[0]"
-        }
-      ]
+      "on": [{"events": "window:resize", "update": "containerSize()[0]"}]
     },
     {
-      "name": "height",
-      "value": 470
-    }
+      "name": "area",
+      "value": "All areas",
+      "bind": {
+        "input": "select",
+        "name": "Show area: ",
+        "options": ["All areas", "Larapinta Trail", "Flinders Ranges", "Wilsons Promontory", "SE Queensland", "Stirling Range"]
+      }
+    },
+    {
+      "name": "chart_h",
+      "value": 640,
+      "bind": {"input": "range", "name": "Chart height: ", "min": 420, "max": 900, "step": 20}
+    },
+    {"name": "height", "update": "chart_h"},
+    {"name": "plot_h", "update": "area == 'All areas' ? height - 24 : height"}
   ],
   "data": [
     {
       "name": "tree",
       "url": "data/treemap_nodes.csv",
-      "format": {
-        "type": "csv",
-        "parse": {
-          "km": "number",
-          "total_km": "number"
-        }
-      },
+      "format": {"type": "csv", "parse": {"km": "number", "total_km": "number"}},
       "transform": [
         {
-          "type": "stratify",
-          "key": "id",
-          "parentKey": "parent"
+          "type": "filter",
+          "expr": "area == 'All areas' || datum.id == 'root' || datum.id == 'g:' + area || datum.parent == 'g:' + area"
         },
+        {"type": "stratify", "key": "id", "parentKey": "parent"},
         {
           "type": "treemap",
           "field": "km",
-          "sort": {
-            "field": "value",
-            "order": "descending"
-          },
+          "sort": {"field": "value", "order": "descending"},
           "round": true,
           "method": "squarify",
           "ratio": 1.2,
           "paddingInner": 1.5,
           "paddingOuter": 2,
-          "paddingTop": 19,
-          "size": [
-            {
-              "signal": "width"
-            },
-            {
-              "signal": "height"
-            }
-          ]
+          "paddingTop": 20,
+          "size": [{"signal": "width"}, {"signal": "plot_h"}]
         }
       ]
     },
@@ -66,204 +55,119 @@
       "name": "leaves",
       "source": "tree",
       "transform": [
+        {"type": "filter", "expr": "!datum.children"},
+        {"type": "formula", "as": "w", "expr": "datum.x1 - datum.x0"},
+        {"type": "formula", "as": "h", "expr": "datum.y1 - datum.y0"},
+        {"type": "formula", "as": "fits_one_line", "expr": "datum.w >= 8 + 6.4 * length(datum.name)"},
+        {"type": "formula", "as": "nlines", "expr": "datum.fits_one_line ? 1 : length(split(datum.name, ' '))"},
         {
-          "type": "filter",
-          "expr": "!datum.children"
+          "type": "formula",
+          "as": "wrapped",
+          "expr": "datum.fits_one_line ? datum.name : replace(datum.name, regexp(' ', 'g'), '\\n')"
+        },
+        {
+          "type": "formula",
+          "as": "label",
+          "expr": "datum.w < 34 || 8 + datum.nlines * 13 > datum.h ? '' : (datum.w >= 50 && 8 + (datum.nlines + 1) * 13 <= datum.h ? datum.wrapped + '\\n' + format(datum.km, '.1f') + ' km' : datum.wrapped)"
         }
       ]
     },
-    {
-      "name": "groups",
-      "source": "tree",
-      "transform": [
-        {
-          "type": "filter",
-          "expr": "datum.depth == 1"
-        }
-      ]
-    }
+    {"name": "groups", "source": "tree", "transform": [{"type": "filter", "expr": "datum.depth == 1"}]}
   ],
   "scales": [
     {
       "name": "color",
       "type": "ordinal",
-      "domain": [
-        "g:SE Queensland",
-        "g:Wilsons Promontory",
-        "g:Flinders Ranges",
-        "g:Stirling Range",
-        "g:Larapinta Trail"
-      ],
-      "range": [
-        "#2F6E8E",
-        "#D98E04",
-        "#B5472E",
-        "#5F8A3C",
-        "#8C3B72"
-      ]
+      "domain": ["g:SE Queensland", "g:Wilsons Promontory", "g:Flinders Ranges", "g:Stirling Range", "g:Larapinta Trail"],
+      "range": ["#2F6E8E", "#D98E04", "#B5472E", "#5F8A3C", "#8C3B72"]
     }
   ],
   "marks": [
     {
       "type": "rect",
-      "from": {
-        "data": "groups"
-      },
+      "from": {"data": "groups"},
       "encode": {
-        "enter": {
-          "fill": {
-            "scale": "color",
-            "field": "id"
-          },
-          "fillOpacity": {
-            "value": 0.18
-          }
-        },
-        "update": {
-          "x": {
-            "field": "x0"
-          },
-          "y": {
-            "field": "y0"
-          },
-          "x2": {
-            "field": "x1"
-          },
-          "y2": {
-            "field": "y1"
-          }
-        }
+        "enter": {"fill": {"scale": "color", "field": "id"}, "fillOpacity": {"value": 0.18}},
+        "update": {"x": {"field": "x0"}, "y": {"field": "y0"}, "x2": {"field": "x1"}, "y2": {"field": "y1"}}
       }
     },
     {
       "type": "rect",
-      "from": {
-        "data": "leaves"
-      },
+      "from": {"data": "leaves"},
+      "encode": {
+        "enter": {"stroke": {"value": "#fff"}, "strokeWidth": {"value": 1}},
+        "update": {
+          "x": {"field": "x0"},
+          "y": {"field": "y0"},
+          "x2": {"field": "x1"},
+          "y2": {"field": "y1"},
+          "fill": {"scale": "color", "field": "parent"},
+          "fillOpacity": {"value": 0.92},
+          "tooltip": {"signal": "{'Trail': datum.full, 'Distance': datum.km + ' km', 'Grade band': datum.band}"}
+        },
+        "hover": {"fillOpacity": {"value": 1}, "stroke": {"value": "#14231F"}, "strokeWidth": {"value": 2}}
+      }
+    },
+    {
+      "type": "text",
+      "from": {"data": "groups"},
       "encode": {
         "enter": {
-          "stroke": {
-            "value": "#fff"
-          },
-          "strokeWidth": {
-            "value": 1
-          },
-          "cursor": {
-            "value": "pointer"
-          }
+          "font": {"value": "Overpass"},
+          "fontWeight": {"value": "bold"},
+          "fontSize": {"value": 12},
+          "fill": {"value": "#14231F"},
+          "baseline": {"value": "top"}
         },
         "update": {
-          "x": {
-            "field": "x0"
-          },
-          "y": {
-            "field": "y0"
-          },
-          "x2": {
-            "field": "x1"
-          },
-          "y2": {
-            "field": "y1"
-          },
-          "fill": {
-            "scale": "color",
-            "field": "parent"
-          },
-          "fillOpacity": {
-            "value": 0.92
-          },
-          "tooltip": {
-            "signal": "{'Trail': datum.full, 'Distance': datum.km + ' km', 'Grade band': datum.band}"
-          }
-        },
-        "hover": {
-          "fillOpacity": {
-            "value": 1
-          },
-          "stroke": {
-            "value": "#14231F"
-          },
-          "strokeWidth": {
-            "value": 2
+          "x": {"signal": "datum.x0 + 5"},
+          "y": {"signal": "datum.y0 + 3"},
+          "limit": {"signal": "datum.x1 - datum.x0 - 8"},
+          "text": {
+            "signal": "datum.x1 - datum.x0 < 100 ? '' : (datum.x1 - datum.x0 < 170 ? datum.name : datum.name + ': ' + format(datum.total_km, '.0f') + ' km')"
           }
         }
       }
     },
     {
       "type": "text",
-      "from": {
-        "data": "groups"
-      },
+      "from": {"data": "groups"},
       "encode": {
         "enter": {
-          "font": {
-            "value": "Overpass"
-          },
-          "fontWeight": {
-            "value": "bold"
-          },
-          "fontSize": {
-            "value": 12
-          },
-          "fill": {
-            "value": "#14231F"
-          },
-          "baseline": {
-            "value": "top"
-          }
+          "font": {"value": "Overpass"},
+          "fontWeight": {"value": "bold"},
+          "fontSize": {"value": 12},
+          "baseline": {"value": "top"},
+          "align": {"value": "right"}
         },
         "update": {
-          "x": {
-            "signal": "datum.x0 + 5"
-          },
-          "y": {
-            "signal": "datum.y0 + 3"
-          },
-          "limit": {
-            "signal": "datum.x1 - datum.x0 - 8"
-          },
+          "x": {"signal": "datum.x1"},
+          "y": {"signal": "plot_h + 6"},
+          "fill": {"scale": "color", "field": "id"},
           "text": {
-            "signal": "datum.name + '  ·  ' + format(datum.total_km, '.0f') + ' km'"
+            "signal": "datum.x1 - datum.x0 < 100 ? '\\u2191 ' + datum.name + ': ' + format(datum.total_km, '.0f') + ' km' : ''"
           }
         }
       }
     },
     {
       "type": "text",
-      "from": {
-        "data": "leaves"
-      },
+      "from": {"data": "leaves"},
       "encode": {
         "enter": {
-          "font": {
-            "value": "Overpass"
-          },
-          "fontSize": {
-            "value": 11
-          },
-          "fill": {
-            "value": "#ffffff"
-          },
-          "baseline": {
-            "value": "top"
-          },
-          "fontWeight": {
-            "value": "600"
-          }
+          "font": {"value": "Overpass"},
+          "fontSize": {"value": 11},
+          "fontWeight": {"value": "600"},
+          "fill": {"value": "#ffffff"},
+          "baseline": {"value": "top"},
+          "lineBreak": {"value": "\n"},
+          "lineHeight": {"value": 13}
         },
         "update": {
-          "x": {
-            "signal": "datum.x0 + 5"
-          },
-          "y": {
-            "signal": "datum.y0 + 4"
-          },
-          "limit": {
-            "signal": "datum.x1 - datum.x0 - 8"
-          },
-          "text": {
-            "signal": "(datum.x1 - datum.x0) > 46 && (datum.y1 - datum.y0) > 28 ? datum.name : ''"
-          }
+          "x": {"signal": "datum.x0 + 5"},
+          "y": {"signal": "datum.y0 + 4"},
+          "limit": {"signal": "datum.w - 8"},
+          "text": {"field": "label"}
         }
       }
     }

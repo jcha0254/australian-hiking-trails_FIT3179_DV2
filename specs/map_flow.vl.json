@@ -1,177 +1,71 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Flow map: dashed straight lines from Melbourne to each walking area, labelled with great-circle distance.",
   "width": "container",
-  "height": 430,
-  "projection": {
-    "type": "conicEqualArea",
-    "parallels": [
-      -18,
-      -36
-    ],
-    "rotate": [
-      -132,
-      0,
-      0
-    ]
-  },
+  "height": 397,
+  "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-132, 0, 0]},
   "layer": [
     {
-      "data": {
-        "url": "data/australia_states.geojson",
-        "format": {
-          "property": "features"
-        }
-      },
-      "mark": {
-        "type": "geoshape",
-        "fill": "#E3E8E2",
-        "stroke": "#fff",
-        "strokeWidth": 1
-      }
+      "data": {"url": "data/australia_states.geojson", "format": {"property": "features"}},
+      "mark": {"type": "geoshape", "fill": "#D3D9D4", "stroke": "#FFFFFF", "strokeWidth": 1}
     },
     {
       "data": {
         "url": "data/groups.csv",
         "format": {
           "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number",
-            "n_trails": "number",
-            "total_km": "number",
-            "total_hours": "number",
-            "km_from_melbourne": "number",
-            "longest_km": "number",
-            "dx": "number",
-            "dy": "number",
-            "fx": "number",
-            "fy": "number"
-          }
+          "parse": {"lon": "number", "lat": "number", "km_from_melbourne": "number", "fx": "number", "fy": "number"}
         }
       },
-      "transform": [
-        {
-          "calculate": "144.9631",
-          "as": "lon0"
-        },
-        {
-          "calculate": "-37.8136",
-          "as": "lat0"
-        }
-      ],
-      "mark": {
-        "type": "rule",
-        "strokeWidth": 2.2,
-        "strokeDash": [
-          5,
-          4
-        ],
-        "opacity": 0.9
-      },
+      "transform": [{"calculate": "144.9631", "as": "lon0"}, {"calculate": "-37.8136", "as": "lat0"}],
+      "mark": {"type": "rule", "strokeWidth": 2.2, "strokeDash": [5, 4], "opacity": 0.9},
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "longitude2": {
-          "field": "lon0"
-        },
-        "latitude2": {
-          "field": "lat0"
-        },
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "longitude2": {"field": "lon0"},
+        "latitude2": {"field": "lat0"},
         "color": {
           "field": "map_group",
           "type": "nominal",
           "scale": {
-            "domain": [
-              "SE Queensland",
-              "Wilsons Promontory",
-              "Flinders Ranges",
-              "Stirling Range",
-              "Larapinta Trail"
-            ],
-            "range": [
-              "#2F6E8E",
-              "#D98E04",
-              "#B5472E",
-              "#5F8A3C",
-              "#8C3B72"
-            ]
+            "domain": ["SE Queensland", "Wilsons Promontory", "Flinders Ranges", "Stirling Range", "Larapinta Trail"],
+            "range": ["#2F6E8E", "#D98E04", "#B5472E", "#5F8A3C", "#8C3B72"]
           },
-          "legend": null
+          "legend": {
+            "title": "Line colour is the area",
+            "titleLimit": 260,
+            "orient": "bottom",
+            "direction": "horizontal",
+            "columns": 3,
+            "symbolType": "stroke",
+            "symbolStrokeWidth": 3,
+            "columnPadding": 14,
+            "labelLimit": 150,
+            "padding": 6
+          }
         }
       }
     },
     {
       "data": {
         "url": "data/groups.csv",
-        "format": {
-          "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number",
-            "n_trails": "number",
-            "total_km": "number",
-            "total_hours": "number",
-            "km_from_melbourne": "number",
-            "longest_km": "number",
-            "dx": "number",
-            "dy": "number",
-            "fx": "number",
-            "fy": "number"
-          }
-        }
+        "format": {"type": "csv", "parse": {"lon": "number", "lat": "number", "km_from_melbourne": "number"}}
       },
-      "mark": {
-        "type": "circle",
-        "size": 110,
-        "stroke": "#fff",
-        "strokeWidth": 1.5
-      },
+      "mark": {"type": "circle", "size": 110, "stroke": "#FFFFFF", "strokeWidth": 1.5},
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
         "color": {
           "field": "map_group",
           "type": "nominal",
           "scale": {
-            "domain": [
-              "SE Queensland",
-              "Wilsons Promontory",
-              "Flinders Ranges",
-              "Stirling Range",
-              "Larapinta Trail"
-            ],
-            "range": [
-              "#2F6E8E",
-              "#D98E04",
-              "#B5472E",
-              "#5F8A3C",
-              "#8C3B72"
-            ]
-          },
-          "legend": null
+            "domain": ["SE Queensland", "Wilsons Promontory", "Flinders Ranges", "Stirling Range", "Larapinta Trail"],
+            "range": ["#2F6E8E", "#D98E04", "#B5472E", "#5F8A3C", "#8C3B72"]
+          }
         },
         "tooltip": [
-          {
-            "field": "map_group",
-            "title": "Area"
-          },
-          {
-            "field": "km_from_melbourne",
-            "title": "Straight-line km from Melbourne",
-            "format": ","
-          }
+          {"field": "map_group", "title": "Area"},
+          {"field": "km_from_melbourne", "title": "Straight-line km from Melbourne", "format": ","}
         ]
       }
     },
@@ -180,127 +74,49 @@
         "url": "data/groups.csv",
         "format": {
           "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number",
-            "n_trails": "number",
-            "total_km": "number",
-            "total_hours": "number",
-            "km_from_melbourne": "number",
-            "longest_km": "number",
-            "dx": "number",
-            "dy": "number",
-            "fx": "number",
-            "fy": "number"
-          }
+          "parse": {"lon": "number", "lat": "number", "km_from_melbourne": "number", "fx": "number", "fy": "number"}
         }
       },
-      "transform": [
-        {
-          "calculate": "datum.map_group + ': ' + format(datum.km_from_melbourne, ',') + ' km'",
-          "as": "lab"
-        }
-      ],
+      "transform": [{"calculate": "datum.map_group + ': ' + format(datum.km_from_melbourne, ',') + ' km'", "as": "lab"}],
       "mark": {
         "type": "text",
         "fontSize": 11.5,
         "fontWeight": 600,
         "color": "#14231F",
-        "dx": {
-          "expr": "datum.fx"
-        },
-        "dy": {
-          "expr": "datum.fy"
-        },
-        "align": {
-          "expr": "datum.falign"
-        }
+        "dx": {"expr": "datum.fx"},
+        "dy": {"expr": "datum.fy"},
+        "align": {"expr": "datum.falign"}
       },
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "lab",
-          "type": "nominal"
-        }
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "lab", "type": "nominal"}
       }
     },
     {
-      "data": {
-        "url": "data/melbourne.csv",
-        "format": {
-          "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number"
-          }
-        }
-      },
+      "data": {"url": "data/melbourne.csv", "format": {"type": "csv", "parse": {"lon": "number", "lat": "number"}}},
       "mark": {
         "type": "point",
         "shape": "diamond",
         "size": 170,
         "filled": true,
         "color": "#E8590C",
-        "stroke": "#fff",
+        "stroke": "#FFFFFF",
         "strokeWidth": 1.5
       },
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "tooltip": [
-          {
-            "field": "name",
-            "title": "Start"
-          }
-        ]
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "tooltip": [{"field": "name", "title": "Start"}]
       }
     },
     {
-      "data": {
-        "url": "data/melbourne.csv",
-        "format": {
-          "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number"
-          }
-        }
-      },
-      "mark": {
-        "type": "text",
-        "fontSize": 12,
-        "fontWeight": 700,
-        "color": "#E8590C",
-        "dx": -12,
-        "dy": -12,
-        "align": "right"
-      },
+      "data": {"url": "data/melbourne.csv", "format": {"type": "csv", "parse": {"lon": "number", "lat": "number"}}},
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": 700, "color": "#C2410C", "dx": -12, "dy": 18, "align": "right"},
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "name",
-          "type": "nominal"
-        }
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "name", "type": "nominal"}
       }
     }
   ]

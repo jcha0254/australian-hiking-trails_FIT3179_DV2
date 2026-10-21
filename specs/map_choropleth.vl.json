@@ -1,139 +1,109 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Choropleth: average published time per trail, by state. States with no trail in the story are grey.",
   "width": "container",
-  "height": 430,
-  "projection": {
-    "type": "conicEqualArea",
-    "parallels": [
-      -18,
-      -36
-    ],
-    "rotate": [
-      -132,
-      0,
-      0
-    ]
-  },
+  "height": 360,
+  "projection": {"type": "conicEqualArea", "parallels": [-18, -36], "rotate": [-132, 0, 0]},
+  "resolve": {"scale": {"color": "independent"}},
   "layer": [
     {
-      "data": {
-        "url": "data/australia_states.geojson",
-        "format": {
-          "property": "features"
-        }
-      },
+      "data": {"url": "data/australia_states.geojson", "format": {"property": "features"}},
       "transform": [
         {
           "lookup": "properties.name",
           "from": {
             "data": {
               "url": "data/state_summary.csv",
-              "format": {
-                "type": "csv",
-                "parse": {
-                  "n_trails": "number",
-                  "avg_hours": "number",
-                  "total_km": "number"
-                }
-              }
+              "format": {"type": "csv", "parse": {"n_trails": "number", "avg_hours": "number", "total_km": "number"}}
             },
             "key": "name",
-            "fields": [
-              "avg_hours",
-              "n_trails"
-            ]
+            "fields": ["avg_hours", "n_trails"]
           }
-        }
+        },
+        {"filter": "isValid(datum.avg_hours)"}
       ],
-      "mark": {
-        "type": "geoshape",
-        "stroke": "#fff",
-        "strokeWidth": 1.2
-      },
+      "mark": {"type": "geoshape", "stroke": "#FFFFFF", "strokeWidth": 1.2},
       "encoding": {
         "color": {
-          "condition": {
-            "test": "!isValid(datum.avg_hours)",
-            "value": "#EDF0EC"
-          },
           "field": "avg_hours",
           "type": "quantitative",
-          "scale": {
-            "domain": [
-              1,
-              8
-            ],
-            "range": [
-              "#F8E2CE",
-              "#E8590C",
-              "#8E2B3A"
-            ]
-          },
+          "scale": {"domain": [1, 4.5, 8], "range": ["#F8CFA3", "#E8590C", "#8E2B3A"]},
           "legend": {
             "title": "Average hours per trail",
             "titleLimit": 220,
-            "orient": "bottom-left",
-            "gradientLength": 150,
-            "values": [
-              2,
-              4,
-              6,
-              8
-            ]
+            "orient": "bottom",
+            "direction": "horizontal",
+            "gradientLength": 220,
+            "values": [2, 4, 6, 8],
+            "padding": 6
           }
         },
         "tooltip": [
-          {
-            "field": "properties.name",
-            "title": "State"
-          },
-          {
-            "field": "n_trails",
-            "title": "Trails listed"
-          },
-          {
-            "field": "avg_hours",
-            "title": "Average hours per trail"
-          }
+          {"field": "properties.name", "title": "State"},
+          {"field": "n_trails", "title": "Trails listed"},
+          {"field": "avg_hours", "title": "Average hours per trail"}
         ]
+      }
+    },
+    {
+      "data": {"url": "data/australia_states.geojson", "format": {"property": "features"}},
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {
+              "url": "data/state_summary.csv",
+              "format": {"type": "csv", "parse": {"n_trails": "number", "avg_hours": "number", "total_km": "number"}}
+            },
+            "key": "name",
+            "fields": ["avg_hours"]
+          }
+        },
+        {"filter": "!isValid(datum.avg_hours)"}
+      ],
+      "mark": {"type": "geoshape", "stroke": "#FFFFFF", "strokeWidth": 1.2},
+      "encoding": {
+        "color": {
+          "datum": "No trail in this story",
+          "type": "nominal",
+          "scale": {"domain": ["No trail in this story"], "range": ["#D3D9D4"]},
+          "legend": {
+            "title": null,
+            "orient": "bottom",
+            "symbolType": "square",
+            "symbolSize": 260,
+            "padding": 6,
+            "labelLimit": 220
+          }
+        },
+        "tooltip": [{"field": "properties.name", "title": "State (no trail in this story)"}]
       }
     },
     {
       "data": {
         "url": "data/state_labels.csv",
-        "format": {
-          "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number",
-            "has_data": "number"
+        "format": {"type": "csv", "parse": {"lon": "number", "lat": "number", "has_data": "number"}}
+      },
+      "transform": [
+        {
+          "lookup": "name",
+          "from": {
+            "data": {
+              "url": "data/state_summary.csv",
+              "format": {"type": "csv", "parse": {"n_trails": "number", "avg_hours": "number", "total_km": "number"}}
+            },
+            "key": "name",
+            "fields": ["avg_hours"]
           }
         }
-      },
-      "mark": {
-        "type": "text",
-        "fontSize": 12,
-        "fontWeight": 700,
-        "lineBreak": "\n"
-      },
+      ],
+      "mark": {"type": "text", "fontSize": 12, "fontWeight": 700},
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "abbr",
-          "type": "nominal"
-        },
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "abbr", "type": "nominal"},
         "color": {
-          "condition": {
-            "test": "datum.has_data == 1 && datum.abbr != 'VIC'",
-            "value": "#ffffff"
-          },
+          "condition": {"test": "isValid(datum.avg_hours) && datum.avg_hours >= 6", "value": "#FFFFFF"},
           "value": "#14231F"
         }
       }
@@ -141,43 +111,28 @@
     {
       "data": {
         "url": "data/state_labels.csv",
-        "format": {
-          "type": "csv",
-          "parse": {
-            "lon": "number",
-            "lat": "number",
-            "has_data": "number"
-          }
-        }
+        "format": {"type": "csv", "parse": {"lon": "number", "lat": "number", "has_data": "number"}}
       },
       "transform": [
         {
-          "filter": "datum.has_data == 1"
+          "lookup": "name",
+          "from": {
+            "data": {
+              "url": "data/state_summary.csv",
+              "format": {"type": "csv", "parse": {"n_trails": "number", "avg_hours": "number", "total_km": "number"}}
+            },
+            "key": "name",
+            "fields": ["avg_hours"]
+          }
         }
       ],
-      "mark": {
-        "type": "text",
-        "fontSize": 11,
-        "dy": 15
-      },
+      "mark": {"type": "text", "fontSize": 11, "dy": 14},
       "encoding": {
-        "longitude": {
-          "field": "lon",
-          "type": "quantitative"
-        },
-        "latitude": {
-          "field": "lat",
-          "type": "quantitative"
-        },
-        "text": {
-          "field": "label",
-          "type": "nominal"
-        },
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "text": {"field": "label", "type": "nominal"},
         "color": {
-          "condition": {
-            "test": "datum.abbr != 'VIC'",
-            "value": "#ffffff"
-          },
+          "condition": {"test": "isValid(datum.avg_hours) && datum.avg_hours >= 6", "value": "#FFFFFF"},
           "value": "#14231F"
         }
       }

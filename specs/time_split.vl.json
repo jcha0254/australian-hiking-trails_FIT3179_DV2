@@ -1,0 +1,136 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Diverging stacked bars: share of each area's trails that take under 4 hours (left) or 4 hours or more (right). Counts, shares and stack positions are all computed in Vega-Lite from trails_clean.csv.",
+  "width": "container",
+  "height": 230,
+  "padding": {"top": 26, "left": 5, "right": 5, "bottom": 5},
+  "data": {"url": "data/trails_clean.csv", "format": {"type": "csv", "parse": {"km": "number", "hours": "number"}}},
+  "transform": [
+    {"aggregate": [{"op": "count", "as": "n"}], "groupby": ["map_group", "bracket"]},
+    {"joinaggregate": [{"op": "sum", "field": "n", "as": "total"}], "groupby": ["map_group"]},
+    {"calculate": "datum.n / datum.total * 100", "as": "pct"},
+    {
+      "calculate": "indexof(['Under 1 h', '1 to 2 h', '2 to 4 h'], datum.bracket) >= 0 ? -datum.pct : datum.pct",
+      "as": "signed_pct"
+    },
+    {
+      "calculate": "{'2 to 4 h': 1, '1 to 2 h': 2, 'Under 1 h': 3, '4 to 8 h': 1, '8 h or more': 2}[datum.bracket]",
+      "as": "dist_from_centre"
+    },
+    {
+      "calculate": "datum.map_group + '  (' + datum.total + (datum.total == 1 ? ' trail)' : ' trails)')",
+      "as": "area_label"
+    },
+    {
+      "stack": "signed_pct",
+      "groupby": ["map_group"],
+      "sort": [{"field": "dist_from_centre", "order": "ascending"}],
+      "offset": "zero",
+      "as": ["x0", "x1"]
+    },
+    {"calculate": "(datum.x0 + datum.x1) / 2", "as": "xmid"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar", "stroke": "#FFFFFF", "strokeWidth": 1.5},
+      "encoding": {
+        "y": {
+          "field": "area_label",
+          "type": "nominal",
+          "title": null,
+          "sort": [
+            "Wilsons Promontory  (18 trails)",
+            "Stirling Range  (1 trail)",
+            "Flinders Ranges  (18 trails)",
+            "SE Queensland  (8 trails)",
+            "Larapinta Trail  (12 trails)"
+          ],
+          "axis": {"labelLimit": 210, "labelFontWeight": 600, "domain": false, "ticks": false},
+          "scale": {"paddingInner": 0.28}
+        },
+        "x": {
+          "field": "x0",
+          "type": "quantitative",
+          "title": "Share of the area's trails (%)",
+          "scale": {"domain": [-100, 100], "nice": false},
+          "axis": {"values": [-100, -75, -50, -25, 0, 25, 50, 75, 100], "labelExpr": "abs(datum.value) + '%'", "grid": true}
+        },
+        "x2": {"field": "x1"},
+        "color": {
+          "field": "bracket",
+          "type": "ordinal",
+          "scale": {
+            "domain": ["Under 1 h", "1 to 2 h", "2 to 4 h", "4 to 8 h", "8 h or more"],
+            "range": ["#CFE3DF", "#8FBDB5", "#4C8F85", "#F1894A", "#A13A06"]
+          },
+          "legend": {
+            "title": "Time the trail takes",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleOrient": "left",
+            "symbolType": "square",
+            "symbolSize": 160,
+            "columnPadding": 16,
+            "padding": 6,
+            "labelFontSize": 12
+          }
+        },
+        "tooltip": [
+          {"field": "map_group", "title": "Area"},
+          {"field": "bracket", "title": "Time"},
+          {"field": "n", "title": "Trails"},
+          {"field": "pct", "title": "Share of area's trails (%)", "format": ".0f"}
+        ]
+      }
+    },
+    {
+      "mark": {"type": "text", "fontSize": 13, "fontWeight": 700},
+      "encoding": {
+        "y": {
+          "field": "area_label",
+          "type": "nominal",
+          "sort": [
+            "Wilsons Promontory  (18 trails)",
+            "Stirling Range  (1 trail)",
+            "Flinders Ranges  (18 trails)",
+            "SE Queensland  (8 trails)",
+            "Larapinta Trail  (12 trails)"
+          ],
+          "scale": {"paddingInner": 0.28}
+        },
+        "x": {"field": "xmid", "type": "quantitative", "scale": {"domain": [-100, 100], "nice": false}},
+        "text": {"field": "n", "type": "quantitative"},
+        "color": {
+          "condition": {"test": "datum.bracket == '2 to 4 h' || datum.bracket == '8 h or more'", "value": "#FFFFFF"},
+          "value": "#14231F"
+        }
+      }
+    },
+    {
+      "data": {"values": [{"x": 0}]},
+      "mark": {"type": "rule", "strokeWidth": 2.5, "color": "#14231F"},
+      "encoding": {"x": {"field": "x", "type": "quantitative", "scale": {"domain": [-100, 100], "nice": false}}}
+    },
+    {
+      "data": {
+        "values": [
+          {"x": -50, "t": "Under 4 hours: a morning or an afternoon"},
+          {"x": 50, "t": "4 hours or more: most of a day"}
+        ]
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "color": "#3B4A45",
+        "align": "center",
+        "baseline": "bottom",
+        "y": -8
+      },
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [-100, 100], "nice": false}},
+        "text": {"field": "t", "type": "nominal"}
+      }
+    }
+  ]
+}

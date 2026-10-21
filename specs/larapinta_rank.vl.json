@@ -1,0 +1,141 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Bump (slope) chart: the 12 Larapinta sections ranked by distance on the left and by time on the right, coloured by grade. Ranks are computed in Vega-Lite with window transforms.",
+  "width": "container",
+  "height": 350,
+  "padding": {"top": 30, "left": 5, "right": 5, "bottom": 5},
+  "data": {
+    "url": "data/trails_clean.csv",
+    "format": {"type": "csv", "parse": {"km": "number", "hours": "number", "id": "number"}}
+  },
+  "transform": [
+    {"filter": "datum.role == 'section'"},
+    {
+      "window": [{"op": "row_number", "as": "rank_km"}],
+      "sort": [{"field": "km", "order": "descending"}, {"field": "id", "order": "ascending"}]
+    },
+    {
+      "window": [{"op": "row_number", "as": "rank_h"}],
+      "sort": [{"field": "hours", "order": "descending"}, {"field": "id", "order": "ascending"}]
+    },
+    {"calculate": "replace(datum.short, 'Larapinta ', '')", "as": "sec"},
+    {"calculate": "datum.sec + ': ' + format(datum.km, '.1f') + ' km'", "as": "lab_km"},
+    {"calculate": "datum.sec + ': ' + format(datum.hours, '.1f') + ' h'", "as": "lab_h"},
+    {"fold": ["rank_km", "rank_h"], "as": ["measure", "rank"]},
+    {"calculate": "datum.measure == 'rank_km' ? 0 : 1", "as": "xpos"}
+  ],
+  "layer": [
+    {
+      "mark": {"type": "line", "strokeCap": "round", "opacity": 0.85},
+      "encoding": {
+        "x": {"field": "xpos", "type": "quantitative", "axis": null, "scale": {"domain": [-1.05, 2.05]}},
+        "y": {"field": "rank", "type": "quantitative", "axis": null, "scale": {"domain": [0.4, 12.6], "reverse": true}},
+        "detail": {"field": "sec", "type": "nominal"},
+        "color": {
+          "field": "band",
+          "type": "nominal",
+          "scale": {"domain": ["Moderate", "Hard", "Very hard"], "range": ["#E2B73F", "#DB6B2D", "#8E2B3A"]},
+          "legend": {
+            "title": "Grade of the section",
+            "orient": "bottom",
+            "direction": "horizontal",
+            "titleOrient": "left",
+            "symbolType": "stroke",
+            "symbolStrokeWidth": 4,
+            "columnPadding": 14,
+            "padding": 6,
+            "labelFontSize": 12
+          }
+        },
+        "size": {"value": 2.6},
+        "tooltip": [
+          {"field": "trail", "title": "Section"},
+          {"field": "km", "title": "Distance (km)"},
+          {"field": "hours", "title": "Time (hours)"},
+          {"field": "grade_label", "title": "Grade"},
+          {"field": "rank_km", "title": "Rank by distance"},
+          {"field": "rank_h", "title": "Rank by time"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.sec == 'S5'"}],
+      "mark": {"type": "line", "strokeCap": "round"},
+      "encoding": {
+        "x": {"field": "xpos", "type": "quantitative", "scale": {"domain": [-1.05, 2.05]}},
+        "y": {"field": "rank", "type": "quantitative", "scale": {"domain": [0.4, 12.6], "reverse": true}},
+        "detail": {"field": "sec", "type": "nominal"},
+        "color": {"value": "#8E2B3A"},
+        "size": {"value": 6}
+      }
+    },
+    {
+      "mark": {"type": "circle", "size": 110, "opacity": 1, "stroke": "#FFFFFF", "strokeWidth": 1.5},
+      "encoding": {
+        "x": {"field": "xpos", "type": "quantitative", "scale": {"domain": [-1.05, 2.05]}},
+        "y": {"field": "rank", "type": "quantitative", "scale": {"domain": [0.4, 12.6], "reverse": true}},
+        "color": {
+          "field": "band",
+          "type": "nominal",
+          "scale": {"domain": ["Moderate", "Hard", "Very hard"], "range": ["#E2B73F", "#DB6B2D", "#8E2B3A"]}
+        },
+        "tooltip": [
+          {"field": "trail", "title": "Section"},
+          {"field": "km", "title": "Distance (km)"},
+          {"field": "hours", "title": "Time (hours)"},
+          {"field": "grade_label", "title": "Grade"},
+          {"field": "rank_km", "title": "Rank by distance"},
+          {"field": "rank_h", "title": "Rank by time"}
+        ]
+      }
+    },
+    {
+      "transform": [{"filter": "datum.measure == 'rank_km'"}],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -11,
+        "fontSize": 12,
+        "color": "#14231F",
+        "fontWeight": {"expr": "datum.sec == 'S5' ? 800 : 500"}
+      },
+      "encoding": {
+        "x": {"field": "xpos", "type": "quantitative", "scale": {"domain": [-1.05, 2.05]}},
+        "y": {"field": "rank", "type": "quantitative", "scale": {"domain": [0.4, 12.6], "reverse": true}},
+        "text": {"field": "lab_km", "type": "nominal"}
+      }
+    },
+    {
+      "transform": [{"filter": "datum.measure == 'rank_h'"}],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 11,
+        "fontSize": 12,
+        "color": "#14231F",
+        "fontWeight": {"expr": "datum.sec == 'S5' ? 800 : 500"}
+      },
+      "encoding": {
+        "x": {"field": "xpos", "type": "quantitative", "scale": {"domain": [-1.05, 2.05]}},
+        "y": {"field": "rank", "type": "quantitative", "scale": {"domain": [0.4, 12.6], "reverse": true}},
+        "text": {"field": "lab_h", "type": "nominal"}
+      }
+    },
+    {
+      "data": {"values": [{"x": 0, "t": "Ranked by distance"}, {"x": 1, "t": "Ranked by time"}]},
+      "mark": {
+        "type": "text",
+        "align": "center",
+        "baseline": "bottom",
+        "fontSize": 12.5,
+        "fontWeight": 700,
+        "color": "#3B4A45",
+        "y": -10
+      },
+      "encoding": {
+        "x": {"field": "x", "type": "quantitative", "scale": {"domain": [-1.05, 2.05]}},
+        "text": {"field": "t", "type": "nominal"}
+      }
+    }
+  ]
+}
