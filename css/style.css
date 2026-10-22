@@ -634,45 +634,5 @@ h4 {
 
 .disclaimer p {
   max-width: 80ch;
-  margin: 0;
-}
-
-/* ---------- Responsive ---------- */
-/* Tablets and phones: stack the columns. */
-@media (max-width: 960px) {
-  .grid-2,
-  .meta-grid,
-  .takeaways,
-  .terms {
-    grid-template-columns: 1fr;
-  }
-  .cg-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .stats div:nth-child(2) {
-    border-right: 0;
-  }
-  .stats div:nth-child(-n+2) {
-    border-bottom: 1px solid var(--line);
-  }
-}
-
-/* Small phones: the colour guide becomes a single column. */
-@media (max-width: 560px) {
-  .cg-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* If the visitor's device asks for less motion, turn off smooth scrolling and the hero fade-in. */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  .hero::before {
-    animation: none;
-  }
+  margin-bottom: 1rem;
 }
