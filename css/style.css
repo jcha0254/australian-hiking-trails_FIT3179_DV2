@@ -557,10 +557,8 @@ h4 {
   margin-bottom: 0.35rem;
   color: #fff;
 }
-
 /* ---------- About ---------- */
-/* About section. The page does not contain one at the moment (the menu still links to #about),
-   so the rules down to the disclaimer are not being used right now. */
+/* The section above the disclaimer. It holds the list of sources, and the menu's About link jumps to it.*/
 .about {
   background: #E5EAE4;
   border-top: 1px solid var(--line);
@@ -568,43 +566,43 @@ h4 {
   font-size: 1rem;
   line-height: 1.6;
 }
-
+ 
 .about h2 {
   font-weight: 800;
   font-size: clamp(1.8rem, 3.6vw, 2.5rem);
   margin-bottom: 1.25rem;
 }
-
+ 
 .about h3 {
   font-size: 1.1rem;
   margin: 1.4rem 0 0.4rem;
 }
-
+ 
 .about h3:first-child {
   margin-top: 0;
 }
-
+ 
 .meta-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2rem;
 }
-
+ 
 .about p {
   margin: 0 0 0.75rem;
 }
-
+ 
 .about ol,
 .about ul {
   padding-left: 1.2rem;
   margin: 0 0 0.75rem;
 }
-
+ 
 .about li {
   margin-bottom: 0.4rem;
   overflow-wrap: anywhere;
 }
-
+ 
 .about code {
   font-family: ui-monospace, Menlo, Consolas, monospace;
   font-size: 0.88em;
@@ -612,7 +610,33 @@ h4 {
   padding: 0.05em 0.3em;
   border-radius: 3px;
 }
-
+ 
+/* The list of sources. Each item is a two-column grid: the ID (S1 to S10) on the left and the
+   reference on the right, so a long line wraps neatly under itself. */
+.about .sources {
+  list-style: none;
+  padding-left: 0;
+  max-width: 80ch;
+}
+ 
+.about .sources li {
+  display: grid;
+  grid-template-columns: 2.75rem 1fr;
+  gap: 0.5rem;
+}
+ 
+.about .sources b {
+  font-family: var(--sans);
+}
+ 
+/* The "Used for" part of each item sits in smaller, muted sans text, like a chart caption. */
+.about .sources .used {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+ 
 /* ---------- Disclaimer ---------- */
 /* The small print at the very bottom of the page, under the closing takeaways. */
 .disclaimer {
@@ -624,14 +648,14 @@ h4 {
   line-height: 1.55;
   color: var(--muted);
 }
-
+ 
 .disclaimer h2 {
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 0.4rem;
 }
-
+ 
 .disclaimer p {
   max-width: 80ch;
   margin-bottom: 1rem;
